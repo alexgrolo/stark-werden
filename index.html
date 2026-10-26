@@ -313,7 +313,7 @@ const auth = getAuth(fbApp);
 const db = initializeFirestore(fbApp, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) });
 let uid = null, unsub = [];
 
-const SEED = [{"d":"2026-04-26","kh":{"kg":12,"s":"10×6"}},{"d":"2026-05-09","kh":{"kg":12}},{"d":"2026-05-10","kh":{"kg":16}},{"d":"2026-05-14","kh":{"kg":16}},{"d":"2026-05-15","kh":{"kg":20}},{"d":"2026-05-23","kh":{"kg":20}},{"d":"2026-05-24","kh":{"kg":24}},{"d":"2026-05-25","kh":{"kg":24}},{"d":"2026-05-31","kh":{"kg":32}},{"d":"2026-06-10","kh":{"kg":16}},{"d":"2026-06-11","kh":{"kg":16}},{"d":"2026-06-16","kh":{"kg":32},"kb":{"kg":6}},{"d":"2026-06-18","kh":{"kg":32},"kb":{"kg":8}},{"d":"2026-06-20","kh":{"kg":36},"kb":{"kg":8}},{"d":"2026-06-21","kh":{"kg":40},"kb":{"kg":8}},{"d":"2026-06-25","kh":{"kg":48},"kb":{"kg":8}},{"d":"2026-06-29","kh":{"kg":52},"kb":{"kg":8}},{"d":"2026-07-01","kh":{"kg":52},"kb":{"kg":8}},{"d":"2026-08-16","kh":{"kg":40},"kb":{"kg":8}},{"d":"2026-08-17","kh":{"kg":40},"kb":{"kg":8}},{"d":"2026-08-18","r":{"min":10,"w":100}},{"d":"2026-08-19","kh":{"kg":44},"kb":{"kg":8}},{"d":"2026-08-20","r":{"min":10,"w":100}},{"d":"2026-08-22","kh":{"kg":48},"kb":{"kg":8}},{"d":"2026-08-24","kh":{"kg":48},"kb":{"kg":8}},{"d":"2026-08-29","kh":{"kg":52},"kb":{"kg":8},"r":{"min":10,"w":100}},{"d":"2026-08-30","kh":{"kg":52},"kb":{"kg":8},"r":{"min":10,"w":100}},{"d":"2026-09-01","r":{"min":10,"w":110}},{"d":"2026-09-02","kh":{"kg":56},"kb":{"kg":12}},{"d":"2026-09-06","kh":{"kg":56},"kb":{"kg":12},"r":{"min":15,"w":90}},{"d":"2026-09-07","kh":{"kg":60},"kb":{"kg":16},"r":{"min":15,"w":91}},{"d":"2026-09-17","kh":{"kg":56},"kb":{"kg":12},"r":{"min":15,"w":91}},{"d":"2026-09-18","kh":{"kg":50,"s":"5×3"},"p":{"kg":20},"kb":{"kg":16,"s":"5×3"}},{"d":"2026-09-19","r":{"min":15,"w":91}},{"d":"2026-09-21","kh":{"kg":50,"s":"5×3"},"p":{"kg":20},"kb":{"kg":16,"s":"5×3"}},{"d":"2026-09-22","r":{"min":15,"w":91}},{"d":"2026-09-23","kh":{"kg":52,"s":"5×3"},"p":{"kg":20},"kb":{"kg":16,"s":"5×3"}},{"d":"2026-09-24","r":{"min":15,"w":90}},{"d":"2026-09-25","kh":{"kg":55,"s":"5×3"},"p":{"kg":20},"kb":{"kg":16,"s":"5×3"}},{"d":"2026-09-27","r":{"min":15,"w":91}},{"d":"2026-09-28","kh":{"kg":57.5,"s":"5×3"},"p":{"kg":20},"kb":{"kg":16,"s":"5×3"}},{"d":"2026-09-29","r":{"min":15,"w":90}},{"d":"2026-10-02","kh":{"kg":60,"s":"5×3"},"p":{"kg":20},"kb":{"kg":16,"s":"5×3"}},{"d":"2026-10-18","kh":{"kg":55,"s":"5×3"},"p":{"kg":20},"kb":{"kg":16,"s":"5×3"},"r":{"min":15,"w":91}},{"d":"2026-10-20","kh":{"kg":57.5,"s":"5×3"},"p":{"kg":20},"kb":{"kg":16,"s":"5×3"}}];
+// Vorgeschichte ist importiert; die Daten stehen nicht mehr im öffentlichen Code.
 const KEY = "stark-app-v1";
 const EX = [["kh", "KH", "Kreuzheben"], ["p", "P", "Press"], ["kb", "KB", "Kniebeuge"]];
 const SYMS = [["aha", "!", "Aha"], ["fun", "☺", "Lustig"], ["feel", "♥", "Gefühl"], ["q", "?", "Frage"]];
@@ -537,7 +537,7 @@ let D;
 function renderAll() {
   D = derive(); renderHead(D); renderJournal(); renderForm(D);
   if (!D.ts.length) {
-    const msg = loaded.t ? `<div class="empty"><p>Noch keine Trainings in deinem Konto.</p><button class="btn" type="button" id="b-seed">Vorgeschichte übernehmen (${SEED.length} Trainingstage seit 26.04.)</button><p class="hint" id="seed-msg"></p></div>` : '<p class="empty">Lade deine Trainings …</p>';
+    const msg = loaded.t ? '<p class="empty">Noch keine Trainings in diesem Konto. Trag oben dein erstes Training ein.</p>' : '<p class="empty">Lade deine Trainings …</p>';
     document.getElementById("buch").innerHTML = msg;
     for (const id of ["ch-kh", "ch-pkb", "ch-zb", "mosaik", "recs"]) document.getElementById(id).innerHTML = '<p class="empty">Noch keine Daten.</p>';
     return;
@@ -588,13 +588,7 @@ document.addEventListener("click", e => {
   if (!b.classList.contains("sure")) { b.classList.add("sure"); b.textContent = "Wirklich löschen?"; setTimeout(() => { b.classList.remove("sure"); b.textContent = "Löschen"; }, 4000); return; }
   const [c, id] = b.dataset.del.split("/"); deleteDoc(doc(db, "users", uid, c, id)).then(() => toast("Gelöscht"));
 });
-// Vorgeschichte einmalig übernehmen
-document.addEventListener("click", async e => {
-  if (!e.target.closest("#b-seed")) return;
-  e.target.disabled = true; const batch = writeBatch(db);
-  SEED.forEach((t, i) => batch.set(doc(col("trainings")), { ...t, created: i }));
-  try { await batch.commit(); toast("Vorgeschichte übernommen"); } catch (err) { document.getElementById("seed-msg").textContent = "Hat nicht geklappt: " + err.code; e.target.disabled = false; }
-});
+
 // ---------- Anmeldung ----------
 const provider = new GoogleAuthProvider();
 document.getElementById("b-login").onclick = async () => {
