@@ -1,5 +1,5 @@
 // Stark werden – kleiner Service Worker: App-Hülle offline verfügbar halten.
-const CACHE = "stark-werden-v1";
+const CACHE = "stark-werden-v2";
 self.addEventListener("install", e => self.skipWaiting());
 self.addEventListener("activate", e => e.waitUntil(self.clients.claim()));
 self.addEventListener("fetch", e => {

@@ -18,7 +18,7 @@
 /* Layout: phone-first app, ein Inhaltsbereich, Tab-Leiste unten wie ein Heftregister */
 :root {
   --bg: #F5F5F2; --surface: #FFFFFF; --ink: #23231F; --muted: #6A6964; --rule: #E2E1DB;
-  --kh: #D23F3E; --p: #4F8A18; --kb: #2F7CCB; --r: #6F66D0;
+  --kh: #D23F3E; --p: #4F8A18; --kb: #2F7CCB; --r: #6F66D0; --lb: #17876D;
   --kraft: #F4BCC4; --ruder: #B3D4F2; --tint-ink: #3D3D3A; --accent: #23231F; --on-accent: #FFFFFF;
   --good: #3B7A2A; --warn: #A2620C;
   --f-display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
@@ -27,12 +27,12 @@
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #161614; --surface: #201F1C; --ink: #EDECE6; --muted: #A3A19A; --rule: #34332E;
-  --kh: #F07C7B; --p: #8CC45A; --kb: #6CAEF0; --r: #A69FF0;
+  --kh: #F07C7B; --p: #8CC45A; --kb: #6CAEF0; --r: #A69FF0; --lb: #5CC9A8;
   --kraft: #8E4E58; --ruder: #3E6488; --tint-ink: #F3F1EA; --accent: #EDECE6; --on-accent: #161614;
   --good: #8CC45A; --warn: #E3A653; color-scheme: dark } }
 :root[data-theme="dark"] {
   --bg: #161614; --surface: #201F1C; --ink: #EDECE6; --muted: #A3A19A; --rule: #34332E;
-  --kh: #F07C7B; --p: #8CC45A; --kb: #6CAEF0; --r: #A69FF0;
+  --kh: #F07C7B; --p: #8CC45A; --kb: #6CAEF0; --r: #A69FF0; --lb: #5CC9A8;
   --kraft: #8E4E58; --ruder: #3E6488; --tint-ink: #F3F1EA; --accent: #EDECE6; --on-accent: #161614;
   --good: #8CC45A; --warn: #E3A653; color-scheme: dark }
 
@@ -64,6 +64,26 @@ section[hidden] { display: none }
 .del.sure { color: var(--kh); font-weight: 700 }
 .empty { padding: 18px 0; color: var(--muted) }
 /* Formular */
+.btn.sm { padding: 8px 14px; font-size: 14px }
+#formcard .ex { align-items: start } #formcard .ex .tag { padding-top: 9px }
+#formcard input[type=number], #formcard input.sets { width: 4.4em }
+.datebar { justify-content: space-between; padding-bottom: 6px }
+h3.fh { margin: 14px 0 2px; color: var(--ink) }
+.ex .last { display: flex; gap: 6px; flex-wrap: wrap }
+.err { color: var(--kh); font-size: 13px; font-weight: 600 }
+.err:empty { display: none }
+.feeltext { margin: 8px 0 0; font-size: 14px; color: var(--muted); min-height: 1.4em }
+.feeltext b { color: var(--ink) }
+.feelhelp { margin-top: 6px } .feelhelp summary { font-size: 14px }
+.feelhelp ol { margin: 6px 0 0; padding-left: 1.4em; font-size: 14px; color: var(--muted) } .feelhelp li b { color: var(--ink) }
+#today { margin-top: 16px; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 12px 14px }
+#today h2 { margin: 0 0 8px; font-size: 20px }
+.titem { display: flex; align-items: baseline; gap: 10px; padding: 6px 0; border-top: 1px solid var(--rule) }
+.titem:first-of-type { border-top: 0 }
+.titem .v { flex: 1; min-width: 0 }
+.rm { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 13px; text-decoration: underline; text-underline-offset: 3px }
+.rm.sure { color: var(--kh); font-weight: 700 }
+.c-lb { color: var(--lb) }
 .card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 14px }
 .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
 label.lbl { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted) }
@@ -136,12 +156,12 @@ svg { display: block; width: 100%; height: auto }
 .mhead span { font-size: 14px; color: var(--muted) }
 
 /* Rekorde */
-.recs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px }
+.recs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px }
 .recs .col h4 { font: 700 18px var(--f-display); margin: 0 0 6px; letter-spacing: .04em }
 .recs .col div { font-size: 14px; padding: 3px 0; border-bottom: 1px solid var(--rule) }
 .recs .col div b { margin-right: 6px }
 .recs .col div small { color: var(--muted) }
-@media (max-width: 420px) { .recs { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+@media (max-width: 460px) { .recs { grid-template-columns: repeat(3, minmax(0, 1fr)) } }
 
 /* Was mich bewegt */
 .jhead { text-align: center; padding: 6px 0 2px }
@@ -200,32 +220,24 @@ details summary { cursor: pointer; font-weight: 600; color: var(--muted) }
   <section id="v-buch" data-view>
     <button type="button" class="slogan" id="slogan"><span class="q">„</span>You have to work it, baby!<span class="q">“</span><small>Training eintragen ↓</small></button>
     <div class="card" id="formcard">
-      <form id="f-train" autocomplete="off">
-        <div class="row" style="justify-content:space-between">
-          <input type="date" id="t-date" aria-label="Datum">
-          <div class="toggles" role="group" aria-label="Trainingsart">
-            <button type="button" class="chip k on" id="tg-k" aria-pressed="true">△ Kraft</button>
-            <button type="button" class="chip r" id="tg-r" aria-pressed="false">◯ Rudern</button>
-          </div>
-        </div>
-        <div id="kraftfields">
-          <div class="ex"><span class="tag c-kh">KH</span><div class="row"><input type="number" step="0.5" min="0" id="kh-kg" placeholder="kg" inputmode="decimal" aria-label="Kreuzheben kg"><input class="sets" id="kh-s" placeholder="5×3" aria-label="Kreuzheben Sätze × Wdh."><span class="mark c-kh" id="kh-m"></span></div><div class="last" id="kh-last"></div></div>
-          <div class="ex"><span class="tag c-p">P</span><div class="row"><input type="number" step="0.5" min="0" id="p-kg" placeholder="kg" inputmode="decimal" aria-label="Press kg"><input class="sets" id="p-s" placeholder="5×3" aria-label="Press Sätze × Wdh."><span class="mark c-p" id="p-m"></span></div><div class="last" id="p-last"></div></div>
-          <div class="ex"><span class="tag c-kb">KB</span><div class="row"><input type="number" step="0.5" min="0" id="kb-kg" placeholder="kg" inputmode="decimal" aria-label="Kniebeuge kg"><input class="sets" id="kb-s" placeholder="5×3" aria-label="Kniebeuge Sätze × Wdh."><span class="mark c-kb" id="kb-m"></span></div><div class="last" id="kb-last"></div></div>
-        </div>
-        <div id="ruderfields" hidden>
-          <div class="ex"><span class="tag c-r">R</span><div class="row"><input type="number" min="0" id="r-min" placeholder="Min." inputmode="numeric" aria-label="Rudern Minuten"><input type="number" min="0" id="r-w" placeholder="Ø W" inputmode="numeric" aria-label="Rudern Watt"><span class="mark c-r" id="r-m"></span></div><div class="last" id="r-last"></div></div>
-        </div>
-        <div class="row" style="margin-top:10px;justify-content:space-between">
-          <div><label class="lbl">Gefühl</label><div class="feel" id="feel"></div></div>
-        </div>
-        <input id="t-note" placeholder="Notiz (optional)" style="width:100%;margin-top:10px" aria-label="Notiz">
-        <div class="row" style="margin-top:12px;justify-content:space-between">
-          <span class="hint" id="t-err" role="alert"></span>
-          <button class="btn" type="submit">Eintragen</button>
-        </div>
+      <div class="row datebar"><label class="lbl" for="t-date">Training am</label><input type="date" id="t-date"></div>
+      <h3 class="fh">△ Kraft</h3>
+        <form class="ex" data-ex="kh" autocomplete="off"><span class="tag c-kh">KH</span><div><div class="row"><input type="number" step="0.5" min="0" id="kh-kg" placeholder="kg" inputmode="decimal" aria-label="Kreuzheben kg"><input class="sets" id="kh-s" placeholder="5×3" aria-label="Kreuzheben Sätze × Wdh."><button class="btn sm" type="submit">Eintragen</button></div><div class="last"><span class="mark c-kh" id="kh-m"></span><span id="kh-last"></span></div><div class="err" role="alert"></div></div></form>
+        <form class="ex" data-ex="p" autocomplete="off"><span class="tag c-p">P</span><div><div class="row"><input type="number" step="0.5" min="0" id="p-kg" placeholder="kg" inputmode="decimal" aria-label="Press kg"><input class="sets" id="p-s" placeholder="5×3" aria-label="Press Sätze × Wdh."><button class="btn sm" type="submit">Eintragen</button></div><div class="last"><span class="mark c-p" id="p-m"></span><span id="p-last"></span></div><div class="err" role="alert"></div></div></form>
+        <form class="ex" data-ex="kb" autocomplete="off"><span class="tag c-kb">KB</span><div><div class="row"><input type="number" step="0.5" min="0" id="kb-kg" placeholder="kg" inputmode="decimal" aria-label="Kniebeuge kg"><input class="sets" id="kb-s" placeholder="5×3" aria-label="Kniebeuge Sätze × Wdh."><button class="btn sm" type="submit">Eintragen</button></div><div class="last"><span class="mark c-kb" id="kb-m"></span><span id="kb-last"></span></div><div class="err" role="alert"></div></div></form>
+      <h3 class="fh">◯ Cardio</h3>
+        <form class="ex" data-ex="r" autocomplete="off"><span class="tag c-r">R</span><div><div class="row"><input type="number" min="0" id="r-min" placeholder="Min." inputmode="numeric" aria-label="Rudern Minuten"><input type="number" min="0" id="r-w" placeholder="Ø W" inputmode="numeric" aria-label="Rudern Watt"><button class="btn sm" type="submit">Eintragen</button></div><div class="last"><span class="mark c-r" id="r-m"></span><span id="r-last"></span></div><div class="err" role="alert"></div></div></form>
+        <form class="ex" data-ex="lb" autocomplete="off"><span class="tag c-lb">LB</span><div><div class="row"><input type="number" min="0" id="lb-min" placeholder="Min." inputmode="numeric" aria-label="Laufband Minuten"><input type="number" step="0.01" min="0" id="lb-km" placeholder="km" inputmode="decimal" aria-label="Laufband Kilometer"><input class="sets" id="lb-pace" placeholder="Pace" inputmode="decimal" aria-label="Laufband Pace in Minuten pro Kilometer"><button class="btn sm" type="submit">Eintragen</button></div><div class="last"><span class="mark c-lb" id="lb-m"></span><span id="lb-last"></span></div><div class="err" role="alert"></div></div></form>
+      <h3 class="fh">Wie war's?</h3>
+      <form id="f-day" autocomplete="off">
+        <div class="feel" id="feel" role="group" aria-label="Gefühl 1 bis 5"></div>
+        <p class="feeltext" id="feeltext"></p>
+        <details class="feelhelp"><summary>Was bedeuten die Punkte?</summary><ol id="feellist"></ol></details>
+        <input id="t-note" placeholder="Notiz zum Tag (optional)" style="width:100%;margin-top:10px" aria-label="Notiz">
+        <div class="row" style="margin-top:10px;justify-content:space-between"><span class="err" id="d-err" role="alert"></span><button class="btn sm" type="submit">Speichern</button></div>
       </form>
     </div>
+    <div id="today"></div>
     <div id="buch"></div>
   </section>
 
@@ -241,7 +253,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--muted) }
   <!-- 3 Mosaik -->
   <section id="v-mosaik" data-view hidden>
     <h2>Monats-Mosaik</h2>
-    <div class="legend"><span><i style="background:var(--kraft)"></i>Kraft</span><span><i style="background:var(--ruder)"></i>Rudern</span><span><i style="background:linear-gradient(to bottom right,var(--kraft) 49%,var(--ruder) 51%)"></i>beides</span><span>★ Rekordtag</span></div>
+    <div class="legend"><span><i style="background:var(--kraft)"></i>Kraft</span><span><i style="background:var(--ruder)"></i>Cardio</span><span><i style="background:linear-gradient(to bottom right,var(--kraft) 49%,var(--ruder) 51%)"></i>beides</span><span>★ Rekordtag</span></div>
     <div id="mosaik"></div>
   </section>
 
@@ -298,7 +310,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--muted) }
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, doc, addDoc, deleteDoc, updateDoc, onSnapshot, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, doc, addDoc, deleteDoc, updateDoc, onSnapshot, writeBatch, deleteField } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlkPZEWPCioIqGPRvJYvYtOshCklrmN70",
@@ -338,7 +350,7 @@ const today = () => iso(new Date());
 // ---------- Ableitungen ----------
 function derive() {
   const ts = S.trainings.slice().sort((a, b) => a.d.localeCompare(b.d) || (a.created || 0) - (b.created || 0));
-  const last = {}, best = {}, rec = { kh: [], p: [], kb: [], r: [] }, marks = new Map();
+  const last = {}, best = {}, rec = { kh: [], p: [], kb: [], r: [], lb: [] }, marks = new Map();
   for (const t of ts) {
     const m = {};
     for (const [k] of EX) if (t[k]) {
@@ -348,18 +360,27 @@ function derive() {
       if (!(k in best)) rec[k].push([v, t.d]);
       best[k] = Math.max(best[k] ?? v, v); last[k] = v;
     }
-    if (t.r) {
-      const v = t.r.min;
-      if ("r" in best && v > best.r) { m.r = "★"; rec.r.push([v, t.d]); }
-      else if ("r" in last && v > last.r) m.r = "↑";
-      if (!("r" in best)) rec.r.push([v, t.d]);
-      best.r = Math.max(best.r ?? v, v); last.r = v;
+    for (const [k, v] of [["r", t.r && t.r.min], ["lb", t.lb && t.lb.km]]) {
+      if (v == null || isNaN(v)) continue;
+      if (k in best && v > best[k]) { m[k] = "★"; rec[k].push([v, t.d]); }
+      else if (k in last && v > last[k]) m[k] = "↑";
+      if (!(k in best)) rec[k].push([v, t.d]);
+      best[k] = Math.max(best[k] ?? v, v); last[k] = v;
     }
     marks.set(t, m);
   }
   return { ts, last, best, rec, marks };
 }
 const isKraft = t => EX.some(([k]) => t[k]);
+const isCardio = t => !!(t.r || t.lb);
+const FEEL = [["Zäh", "kaum Energie, jeder Satz war Arbeit"], ["Schwer", "eher Pflicht als Freude"], ["Okay", "solide Einheit, nichts Besonderes"], ["Gut", "kraftvoll, hat Spaß gemacht"], ["Top", "alles lief, ich hätte noch mehr gekonnt"]];
+const fmtKm = v => fmt(Math.round(v * 100) / 100);
+function valText(t, k, m) {
+  if (EX.some(([e]) => e === k)) return `${fmt(t[k].kg)} kg${t[k].s ? " · " + t[k].s : ""}${m[k] ? " " + m[k] : ""}`;
+  if (k === "r") return `${t.r.min}′${t.r.w ? " · " + t.r.w + " W" : ""}${inZone(t.r) ? " ✓" : ""}${m.r ? " " + m.r : ""}`;
+  if (k === "lb") return `${t.lb.min}′${t.lb.km ? " · " + fmtKm(t.lb.km) + " km" : ""}${t.lb.pace ? " · " + t.lb.pace + "/km" : ""}${m.lb ? " " + m.lb : ""}`;
+  return "";
+}
 const inZone = r => r && r.w >= S.zone[0] && r.w <= S.zone[1];
 
 // ---------- Kopf ----------
@@ -373,15 +394,16 @@ function renderHead(D) {
 function entryHTML(t, m) {
   const dt = pd(t.d), vals = [];
   for (const [k, tag] of EX) if (t[k]) vals.push(`<span class="c-${k}">${tag} ${fmt(t[k].kg)}${t[k].s ? " · " + t[k].s : ""}${m[k] ? " " + m[k] : ""}</span>`);
-  if (t.r) vals.push(`<span class="c-r">◯ ${t.r.min}′ · ${t.r.w} W${inZone(t.r) ? " ✓" : ""}${m.r ? " " + m.r : ""}</span>`);
-  const sym = (isKraft(t) ? "△" : "") + (t.r ? " ◯" : "");
+  if (t.r) vals.push(`<span class="c-r">R ${valText(t, "r", m)}</span>`);
+  if (t.lb) vals.push(`<span class="c-lb">LB ${valText(t, "lb", m)}</span>`);
+  const sym = (isKraft(t) ? "△" : "") + (isCardio(t) ? " ◯" : "");
   const dots = t.feel ? "●".repeat(t.feel) + "○".repeat(5 - t.feel) : "";
   return `<div class="entry"><div class="d">${WD[wdIdx(dt)]} ${dmy(t.d)}<small>${sym}</small></div><div class="vals">${vals.join("")}</div><div class="dots">${dots}</div>${t.note ? `<div class="note">${esc(t.note)}</div>` : ""}<button class="del" type="button" data-del="trainings/${t.id}">Löschen</button></div>`;
 }
 function boxesHTML(mon, byDay) {
   let h = "";
   for (let i = 0; i < 7; i++) { const d = new Date(mon); d.setDate(d.getDate() + i); const ts = byDay.get(iso(d)) || [];
-    const k = ts.some(isKraft), r = ts.some(t => t.r);
+    const k = ts.some(isKraft), r = ts.some(isCardio);
     h += `<span class="bx" style="${k && r ? "background:linear-gradient(to bottom right,var(--kraft) 49%,var(--surface) 49.5%,var(--surface) 50.5%,var(--ruder) 51%);border-color:var(--kraft)" : k ? "background:var(--kraft);border-color:var(--kraft)" : r ? "background:var(--ruder);border-color:var(--ruder)" : ""}"></span>`; }
   return `<span class="boxes">${h}</span>`;
 }
@@ -407,7 +429,7 @@ function renderBuch(D) {
     const mEnd = done ? end : (days.length ? pd(days[days.length - 1].d) : new Date());
     blocks.push({ m: mEnd, html: `<div class="wband"><span class="kw">KW ${kw}</span>${boxesHTML(w, byDay)}<span class="cnt ${n >= S.goal ? "ok" : ""}">${n}/${S.goal}${n >= S.goal ? " ✓" : ""}${done ? "" : " · läuft"}</span></div>` });
   }
-  // nach Monat gruppieren, neuester Monat oben, innerhalb chronologisch
+  // nach Monat gruppieren, neuester Monat oben, innerhalb neuester Tag oben
   const groups = new Map();
   for (const b of blocks) { const key = b.m.getFullYear() * 12 + b.m.getMonth(); if (!groups.has(key)) groups.set(key, []); groups.get(key).push(b); }
   let out = "";
@@ -415,8 +437,8 @@ function renderBuch(D) {
     const y = Math.floor(key / 12), m = key % 12, items = groups.get(key);
     const mt = D.ts.filter(t => { const d = pd(t.d); return d.getFullYear() === y && d.getMonth() === m; });
     const stars = mt.reduce((s, t) => s + Object.values(D.marks.get(t)).filter(v => v === "★").length, 0);
-    const html = items.map(b => b.pause ? `<div class="pause"><b>KW ${b.pause.from}${b.pause.to !== b.pause.from ? "–" + b.pause.to : ""}</b>Pause ist Teil des Prozesses.</div>` : b.html).join("");
-    out += `<details class="mfold" data-key="${key}" ${openMonths.has(key) ? "open" : ""}><summary><span class="mname">${MONTHS[m]} ${y}</span><span class="msum">${mt.filter(isKraft).length}× Kraft · ${mt.filter(t => t.r).length}× Rudern${stars ? ` · ${stars}× ★` : ""}</span></summary>${html}</details>`;
+    const html = items.slice().reverse().map(b => b.pause ? `<div class="pause"><b>KW ${b.pause.from}${b.pause.to !== b.pause.from ? "–" + b.pause.to : ""}</b>Pause ist Teil des Prozesses.</div>` : b.html).join("");
+    out += `<details class="mfold" data-key="${key}" ${openMonths.has(key) ? "open" : ""}><summary><span class="mname">${MONTHS[m]} ${y}</span><span class="msum">${mt.filter(isKraft).length}× Kraft · ${mt.filter(isCardio).length}× Cardio${stars ? ` · ${stars}× ★` : ""}</span></summary>${html}</details>`;
   }
   document.getElementById("buch").innerHTML = `<h2>Trainingsbuch</h2>` + out;
 }
@@ -475,20 +497,20 @@ function renderMosaik(D) {
     let cells = WD.map(w => `<div class="wd">${w}</div>`).join("") + "<div></div>".repeat(wdIdx(first));
     let kc = 0, rc = 0;
     for (let d = 1; d <= n; d++) {
-      const ds = iso(new Date(y, m, d)), ts = byDay.get(ds) || [], k = ts.some(isKraft), r = ts.some(t => t.r);
+      const ds = iso(new Date(y, m, d)), ts = byDay.get(ds) || [], k = ts.some(isKraft), r = ts.some(isCardio);
       kc += k; rc += r;
       const cls = ds < iso(start) ? "pre" : ds > today() ? "fut" : k && r ? "kr" : k ? "k" : r ? "r" : "";
       cells += `<div class="cell ${cls}">${d}${starDays.has(ds) ? '<span class="st">★</span>' : ""}</div>`;
     }
-    out += `<div class="month"><div class="mhead"><h2>${MONTHS[m]} ${y}</h2><span>${kc}× Kraft · ${rc}× Rudern</span></div><div class="mgrid">${cells}</div></div>`;
+    out += `<div class="month"><div class="mhead"><h2>${MONTHS[m]} ${y}</h2><span>${kc}× Kraft · ${rc}× Cardio</span></div><div class="mgrid">${cells}</div></div>`;
   }
   document.getElementById("mosaik").innerHTML = out;
 }
 
 // ---------- Rekorde + Zielband ----------
 function renderRekorde(D) {
-  const cols = [["kh", "KH", "kg"], ["p", "P", "kg"], ["kb", "KB", "kg"], ["r", "R", "′"]];
-  document.getElementById("recs").innerHTML = cols.map(([k, tag, u]) => `<div class="col"><h4 class="c-${k}">${tag}</h4>${D.rec[k].slice().reverse().map(([v, d]) => `<div><b class="c-${k}">${fmt(v)}${u === "′" ? "′" : ""}</b><small>${dmy(d)}</small></div>`).join("") || '<div><small>noch keiner</small></div>'}</div>`).join("");
+  const cols = [["kh", "KH", "kg"], ["p", "P", "kg"], ["kb", "KB", "kg"], ["r", "R", "′"], ["lb", "LB", "km"]];
+  document.getElementById("recs").innerHTML = cols.map(([k, tag, u]) => `<div class="col"><h4 class="c-${k}">${tag}</h4>${D.rec[k].slice().reverse().map(([v, d]) => `<div><b class="c-${k}">${u === "km" ? fmtKm(v) + " km" : fmt(v) + (u === "′" ? "′" : "")}</b><small>${dmy(d)}</small></div>`).join("") || '<div><small>noch keiner</small></div>'}</div>`).join("");
   const rs = D.ts.filter(t => t.r);
   document.getElementById("zone-hint").textContent = `Balken = Minuten. Ausgefüllt, wenn im Zielbereich ${S.zone[0]}–${S.zone[1]} W; sonst nur umrandet.`;
   const W = 340, L = 50, R = 250, top = 26, rh = 20, H = top + rs.length * rh + 8, max = Math.max(30, ...rs.map(t => t.r.min));
@@ -513,14 +535,21 @@ function renderJournal() {
 }
 
 // ---------- Formular ----------
-let feel = 0, wantK = true, wantR = false;
+let feel = 0, feelTouched = false;
+const selDate = () => document.getElementById("t-date").value || today();
+const dayDocs = d => S.trainings.filter(t => t.d === d).sort((a, b) => (a.created || 0) - (b.created || 0));
 function renderForm(D) {
   for (const [k, , name] of EX) { const t = [...D.ts].reverse().find(t => t[k]);
     document.getElementById(k + "-last").textContent = t ? `Zuletzt ${dmy(t.d)}: ${fmt(t[k].kg)} kg${t[k].s ? " · " + t[k].s : ""} · Rekord ${fmt(D.best[k])} kg` : `${name}: noch kein Eintrag`;
-    document.getElementById(k + "-s").placeholder = t && t[k].s ? t[k].s : "5×3"; }
+    const si = document.getElementById(k + "-s"); if (t && t[k].s && !si.value && document.activeElement !== si) si.value = t[k].s; }
   const tr = [...D.ts].reverse().find(t => t.r);
-  document.getElementById("r-last").textContent = tr ? `Zuletzt ${dmy(tr.d)}: ${tr.r.min}′ · ${tr.r.w} W · Ziel ${S.zone[0]}–${S.zone[1]} W` : "";
-  document.getElementById("feel").innerHTML = [1, 2, 3, 4, 5].map(i => `<button type="button" class="${i <= feel ? "on" : ""}" data-feel="${i}" aria-label="Gefühl ${i}">${i}</button>`).join("");
+  document.getElementById("r-last").textContent = tr ? `Zuletzt ${dmy(tr.d)}: ${tr.r.min}′ · ${tr.r.w} W · Ziel ${S.zone[0]}–${S.zone[1]} W` : "Ziel " + S.zone[0] + "–" + S.zone[1] + " W";
+  const tl = [...D.ts].reverse().find(t => t.lb);
+  document.getElementById("lb-last").textContent = tl ? `Zuletzt ${dmy(tl.d)}: ${valText(tl, "lb", {})}` : "Pace leer lassen, dann rechnet die App sie aus Minuten und km.";
+  if (!feelTouched) { const dd = dayDocs(selDate()); feel = (dd.find(t => t.feel) || {}).feel || 0; const n = (dd.find(t => t.note) || {}).note; const ni = document.getElementById("t-note"); if (document.activeElement !== ni) ni.value = n || ""; }
+  document.getElementById("feel").innerHTML = [1, 2, 3, 4, 5].map(i => `<button type="button" class="${i <= feel ? "on" : ""}" data-feel="${i}" aria-label="Gefühl ${i}: ${FEEL[i - 1][0]}" aria-pressed="${i === feel}">${i}</button>`).join("");
+  document.getElementById("feeltext").innerHTML = feel ? `<b>${feel} · ${FEEL[feel - 1][0]}</b> – ${FEEL[feel - 1][1]}` : "Tippe an, wie sich das Training angefühlt hat: 1 = zäh … 5 = top.";
+  document.getElementById("feellist").innerHTML = FEEL.map(([a, b]) => `<li><b>${a}</b> – ${b}</li>`).join("");
   liveMarks(D);
 }
 function liveMarks(D) {
@@ -528,14 +557,33 @@ function liveMarks(D) {
     document.getElementById(k + "-m").textContent = isNaN(v) ? "" : v > (D.best[k] ?? Infinity) ? "★ Rekord" : v > (D.last[k] ?? Infinity) ? "↑" : ""; }
   const m = parseFloat(document.getElementById("r-min").value);
   document.getElementById("r-m").textContent = isNaN(m) ? "" : m > (D.best.r ?? Infinity) ? "★ Rekord" : "";
+  const km = parseFloat(String(document.getElementById("lb-km").value).replace(",", "."));
+  document.getElementById("lb-m").textContent = isNaN(km) ? "" : km > (D.best.lb ?? Infinity) ? "★ Rekord" : "";
 }
+// ---------- Heute ----------
+function renderToday(D) {
+  const d = selDate(), dt = pd(d), docs = D.ts.filter(t => t.d === d), isToday = d === today();
+  const items = [];
+  for (const t of docs) { const m = D.marks.get(t) || {};
+    for (const [k, tag] of [...EX.map(([k, tag]) => [k, tag]), ["r", "R"], ["lb", "LB"]]) if (t[k]) items.push(`<div class="titem"><b class="c-${k}">${tag}</b><span class="v c-${k}">${valText(t, k, m)}</span><button class="rm" type="button" data-rm="${t.id}/${k}">Entfernen</button></div>`); }
+  const fd = docs.find(t => t.feel), nd = docs.find(t => t.note);
+  if (fd) items.push(`<div class="titem"><b>${"●".repeat(fd.feel)}${"○".repeat(5 - fd.feel)}</b><span class="v">${FEEL[fd.feel - 1][0]}</span><button class="rm" type="button" data-rm="${fd.id}/feel">Entfernen</button></div>`);
+  if (nd) items.push(`<div class="titem"><span class="v">${esc(nd.note)}</span><button class="rm" type="button" data-rm="${nd.id}/note">Entfernen</button></div>`);
+  document.getElementById("today").innerHTML = `<h2>${isToday ? "Heute" : "Training am"} · ${WD[wdIdx(dt)]} ${dmy(d)}</h2>` + (items.length ? items.join("") : `<p class="hint" style="margin:0">${isToday ? "Noch nichts eingetragen. You have to work it, baby!" : "An diesem Tag ist nichts eingetragen."}</p>`);
+}
+async function saveFields(d, fields) {
+  const ex = dayDocs(d)[0];
+  if (ex) await updateDoc(doc(db, "users", uid, "trainings", ex.id), fields);
+  else await addDoc(col("trainings"), { d, ...fields, created: Date.now() });
+}
+function parsePace(s) { const m = String(s).trim().match(/^(\d{1,2})[:.,'′](\d{1,2})$/); return m && +m[2] < 60 ? `${+m[1]}:${String(+m[2]).padStart(2, "0")}` : null; }
 
 // ---------- Helfer ----------
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
-function toast(msg) { const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; t.setAttribute("role", "status"); document.body.appendChild(t); setTimeout(() => t.remove(), 1800); }
+function toast(msg) { document.querySelectorAll(".toast").forEach(x => x.remove()); const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; t.setAttribute("role", "status"); document.body.appendChild(t); setTimeout(() => t.remove(), 1800); }
 let D;
 function renderAll() {
-  D = derive(); renderHead(D); renderJournal(); renderForm(D);
+  D = derive(); renderHead(D); renderJournal(); renderForm(D); renderToday(D);
   if (!D.ts.length) {
     const msg = loaded.t ? '<p class="empty">Noch keine Trainings in diesem Konto. Trag oben dein erstes Training ein.</p>' : '<p class="empty">Lade deine Trainings …</p>';
     document.getElementById("buch").innerHTML = msg;
@@ -554,25 +602,57 @@ function show(tab) {
   window.scrollTo(0, 0);
   if (tab === "leiter") requestAnimationFrame(scrollCharts);
 }
-document.getElementById("tg-k").onclick = e => { wantK = !wantK; e.currentTarget.classList.toggle("on", wantK); e.currentTarget.setAttribute("aria-pressed", wantK); document.getElementById("kraftfields").hidden = !wantK; };
-document.getElementById("tg-r").onclick = e => { wantR = !wantR; e.currentTarget.classList.toggle("on", wantR); e.currentTarget.setAttribute("aria-pressed", wantR); document.getElementById("ruderfields").hidden = !wantR; };
-document.getElementById("feel").onclick = e => { const b = e.target.closest("[data-feel]"); if (!b) return; const v = +b.dataset.feel; feel = feel === v ? 0 : v; renderForm(D); };
-document.getElementById("f-train").addEventListener("input", () => { document.getElementById("t-err").textContent = ""; liveMarks(D); });
-document.getElementById("f-train").addEventListener("submit", e => {
+document.getElementById("feel").onclick = e => { const b = e.target.closest("[data-feel]"); if (!b) return; const v = +b.dataset.feel; feel = feel === v ? 0 : v; feelTouched = true; renderForm(D); };
+document.getElementById("t-date").addEventListener("change", () => { feelTouched = false; renderForm(D); renderToday(D); });
+document.getElementById("formcard").addEventListener("input", e => { const f = e.target.closest("form"); if (f) f.querySelectorAll(".err").forEach(x => x.textContent = ""); liveMarks(D); });
+document.getElementById("formcard").addEventListener("submit", async e => {
   e.preventDefault();
-  const t = { d: document.getElementById("t-date").value || today() };
-  if (wantK) for (const [k] of EX) { const v = parseFloat(document.getElementById(k + "-kg").value); if (!isNaN(v)) { t[k] = { kg: v }; const s = document.getElementById(k + "-s").value.trim().replace(/x/gi, "×"); if (s) t[k].s = s; } }
-  if (wantR) { const m = parseInt(document.getElementById("r-min").value), w = parseInt(document.getElementById("r-w").value); if (!isNaN(m)) { t.r = { min: m, w: isNaN(w) ? 0 : w }; } }
-  if (!isKraft(t) && !t.r) { document.getElementById("t-err").textContent = "Trag mindestens ein Gewicht oder die Ruderminuten ein."; return; }
-  if (feel) t.feel = feel;
-  const note = document.getElementById("t-note").value.trim(); if (note) t.note = note;
-  t.created = Date.now();
-  addDoc(col("trainings"), t).catch(err => toast("Nicht gespeichert: " + err.code));
-  e.target.reset(); feel = 0; document.getElementById("t-date").value = today();
-  renderForm(D); toast("Eingetragen");
+  const f = e.target, k = f.dataset.ex, d = selDate(), err = f.querySelector(".err"), val = id => document.getElementById(id).value.trim();
+  let fields = null, label = "";
+  if (f.id === "f-day") {
+    const note = val("t-note");
+    if (!feel && !note) { err.textContent = "Wähle ein Gefühl oder schreib eine Notiz."; return; }
+    fields = { feel: feel || deleteField(), note: note || deleteField() }; label = "Gespeichert";
+  } else if (EX.some(([e]) => e === k)) {
+    const kg = parseFloat(val(k + "-kg").replace(",", "."));
+    if (isNaN(kg)) { err.textContent = "Trag zuerst das Gewicht ein."; return; }
+    const o = { kg }; const s = val(k + "-s").replace(/x/gi, "×"); if (s) o.s = s;
+    fields = { [k]: o }; label = EX.find(([e]) => e === k)[2] + " eingetragen";
+  } else if (k === "r") {
+    const min = parseInt(val("r-min")), w = parseInt(val("r-w"));
+    if (isNaN(min)) { err.textContent = "Trag zuerst die Minuten ein."; return; }
+    fields = { r: { min, w: isNaN(w) ? 0 : w } }; label = "Rudern eingetragen";
+  } else if (k === "lb") {
+    const min = parseFloat(val("lb-min").replace(",", ".")), km = parseFloat(val("lb-km").replace(",", ".")), ps = val("lb-pace");
+    if (isNaN(min)) { err.textContent = "Trag zuerst die Minuten ein."; return; }
+    let pace = ps ? parsePace(ps) : null;
+    if (ps && !pace) { err.textContent = "Pace bitte als Minuten:Sekunden schreiben, z. B. 9:30."; return; }
+    if (!pace && km > 0) { const sec = Math.round(min * 60 / km); pace = `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`; }
+    const o = { min }; if (!isNaN(km)) o.km = km; if (pace) o.pace = pace;
+    fields = { lb: o }; label = "Laufband eingetragen";
+  }
+  if (!fields) return;
+  const btn = f.querySelector("button[type=submit]"); btn.disabled = true;
+  try {
+    await saveFields(d, fields);
+    if (f.id === "f-day") feelTouched = false;
+    else f.querySelectorAll("input").forEach(i => { if (!i.classList.contains("sets") || k === "lb") i.value = ""; });
+    toast(label); renderForm(D);
+  } catch (er) { err.textContent = "Nicht gespeichert: " + er.code; }
+  btn.disabled = false;
+});
+// Einzelnes Element von heute entfernen (zweistufig)
+document.getElementById("today").addEventListener("click", async e => {
+  const b = e.target.closest("[data-rm]"); if (!b) return;
+  if (!b.classList.contains("sure")) { b.classList.add("sure"); b.textContent = "Wirklich?"; setTimeout(() => { b.classList.remove("sure"); b.textContent = "Entfernen"; }, 4000); return; }
+  const [id, k] = b.dataset.rm.split("/"), t = S.trainings.find(x => x.id === id); if (!t) return;
+  const rest = ["kh", "p", "kb", "r", "lb", "feel", "note"].filter(f => f !== k && t[f]);
+  if (rest.length) await updateDoc(doc(db, "users", uid, "trainings", id), { [k]: deleteField() }); else await deleteDoc(doc(db, "users", uid, "trainings", id));
+  if (k === "feel" || k === "note") feelTouched = false;
+  toast("Entfernt");
 });
 document.getElementById("buch").addEventListener("toggle", e => { const d = e.target; if (!d.matches || !d.matches("details.mfold")) return; const k = +d.dataset.key; d.open ? openMonths.add(k) : openMonths.delete(k); }, true);
-document.getElementById("slogan").onclick = () => { document.getElementById("formcard").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }); document.getElementById(wantK ? "kh-kg" : "r-min").focus({ preventScroll: true }); };
+document.getElementById("slogan").onclick = () => { document.getElementById("formcard").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }); document.getElementById("kh-kg").focus({ preventScroll: true }); };
 document.getElementById("symchips").onclick = e => { const b = e.target.closest("[data-sym]"); if (!b) return; jsym = b.dataset.sym; renderJournal(); };
 document.getElementById("j-text").addEventListener("input", () => document.getElementById("j-err").textContent = "");
 document.getElementById("f-j").addEventListener("submit", e => {
