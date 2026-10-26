@@ -19,7 +19,7 @@
 :root {
   --bg: #F5F5F2; --surface: #FFFFFF; --ink: #23231F; --muted: #6A6964; --rule: #E2E1DB;
   --kh: #D23F3E; --p: #4F8A18; --kb: #2F7CCB; --r: #6F66D0; --lb: #17876D;
-  --kraft: #F4BCC4; --ruder: #B3D4F2; --tint-ink: #3D3D3A; --accent: #23231F; --on-accent: #FFFFFF;
+  --kraft: #F4BCC4; --ruder: #B3D4F2; --lauf: #7FD3B5; --tint-ink: #3D3D3A; --accent: #23231F; --on-accent: #FFFFFF;
   --good: #3B7A2A; --warn: #A2620C;
   --f-display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Source Sans 3", "Segoe UI", -apple-system, Roboto, Arial, sans-serif;
@@ -28,12 +28,12 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #161614; --surface: #201F1C; --ink: #EDECE6; --muted: #A3A19A; --rule: #34332E;
   --kh: #F07C7B; --p: #8CC45A; --kb: #6CAEF0; --r: #A69FF0; --lb: #5CC9A8;
-  --kraft: #8E4E58; --ruder: #3E6488; --tint-ink: #F3F1EA; --accent: #EDECE6; --on-accent: #161614;
+  --kraft: #8E4E58; --ruder: #3E6488; --lauf: #3E8E74; --tint-ink: #F3F1EA; --accent: #EDECE6; --on-accent: #161614;
   --good: #8CC45A; --warn: #E3A653; color-scheme: dark } }
 :root[data-theme="dark"] {
   --bg: #161614; --surface: #201F1C; --ink: #EDECE6; --muted: #A3A19A; --rule: #34332E;
   --kh: #F07C7B; --p: #8CC45A; --kb: #6CAEF0; --r: #A69FF0; --lb: #5CC9A8;
-  --kraft: #8E4E58; --ruder: #3E6488; --tint-ink: #F3F1EA; --accent: #EDECE6; --on-accent: #161614;
+  --kraft: #8E4E58; --ruder: #3E6488; --lauf: #3E8E74; --tint-ink: #F3F1EA; --accent: #EDECE6; --on-accent: #161614;
   --good: #8CC45A; --warn: #E3A653; color-scheme: dark }
 
 * { box-sizing: border-box }
@@ -151,7 +151,9 @@ svg { display: block; width: 100%; height: auto }
 .cell.kr { background: linear-gradient(to bottom right, var(--kraft) 49%, var(--surface) 49.5%, var(--surface) 50.5%, var(--ruder) 51%); border-color: var(--kraft); color: var(--tint-ink) }
 .cell.pre { border-style: dashed; opacity: .5 }
 .cell.fut { opacity: .45 }
-.cell .st { position: absolute; right: 4px; bottom: 2px; font-size: 13px }
+.cell .st { position: absolute; right: 4px; top: 2px; font-size: 13px; z-index: 1 }
+.cell { overflow: hidden }
+.cell.lb::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 24%; background: var(--lauf); border-top: 1.5px solid var(--surface) }
 .mhead { display: flex; flex-wrap: wrap; gap: 0 12px; justify-content: space-between; align-items: baseline; max-width: 360px }
 .mhead span { font-size: 14px; color: var(--muted) }
 
@@ -253,7 +255,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--muted) }
   <!-- 3 Mosaik -->
   <section id="v-mosaik" data-view hidden>
     <h2>Monats-Mosaik</h2>
-    <div class="legend"><span><i style="background:var(--kraft)"></i>Kraft</span><span><i style="background:var(--ruder)"></i>Cardio</span><span><i style="background:linear-gradient(to bottom right,var(--kraft) 49%,var(--ruder) 51%)"></i>beides</span><span>★ Rekordtag</span></div>
+    <div class="legend"><span><i style="background:var(--kraft)"></i>Kraft</span><span><i style="background:var(--ruder)"></i>Rudern</span><span><i style="background:linear-gradient(to bottom right,var(--kraft) 49%,var(--ruder) 51%)"></i>beides</span><span><i style="background:var(--surface);box-shadow:inset 0 -4px 0 var(--lauf);border:1px solid var(--rule)"></i>Laufband (Streifen)</span><span>★ Rekordtag</span></div>
     <div id="mosaik"></div>
   </section>
 
@@ -293,7 +295,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--muted) }
     <details>
       <summary>Konto</summary>
       <p class="hint" id="who"></p>
-      <p class="hint">App-Version 3 · 26.10.2026</p>
+      <p class="hint">App-Version 4 · 26.10.2026</p>
       <div class="row" style="margin-top:8px"><button class="btn ghost" type="button" id="b-logout">Abmelden</button></div>
     </details>
   </div>
@@ -404,8 +406,8 @@ function entryHTML(t, m) {
 function boxesHTML(mon, byDay) {
   let h = "";
   for (let i = 0; i < 7; i++) { const d = new Date(mon); d.setDate(d.getDate() + i); const ts = byDay.get(iso(d)) || [];
-    const k = ts.some(isKraft), r = ts.some(isCardio);
-    h += `<span class="bx" style="${k && r ? "background:linear-gradient(to bottom right,var(--kraft) 49%,var(--surface) 49.5%,var(--surface) 50.5%,var(--ruder) 51%);border-color:var(--kraft)" : k ? "background:var(--kraft);border-color:var(--kraft)" : r ? "background:var(--ruder);border-color:var(--ruder)" : ""}"></span>`; }
+    const k = ts.some(isKraft), r = ts.some(t => t.r), l = ts.some(t => t.lb);
+    h += `<span class="bx" style="${l ? "box-shadow:inset 0 -5px 0 var(--lauf);" : ""}${k && r ? "background:linear-gradient(to bottom right,var(--kraft) 49%,var(--surface) 49.5%,var(--surface) 50.5%,var(--ruder) 51%);border-color:var(--kraft)" : k ? "background:var(--kraft);border-color:var(--kraft)" : r ? "background:var(--ruder);border-color:var(--ruder)" : ""}"></span>`; }
   return `<span class="boxes">${h}</span>`;
 }
 const openMonths = new Set();
@@ -439,7 +441,7 @@ function renderBuch(D) {
     const mt = D.ts.filter(t => { const d = pd(t.d); return d.getFullYear() === y && d.getMonth() === m; });
     const stars = mt.reduce((s, t) => s + Object.values(D.marks.get(t)).filter(v => v === "★").length, 0);
     const html = items.slice().reverse().map(b => b.pause ? `<div class="pause"><b>KW ${b.pause.from}${b.pause.to !== b.pause.from ? "–" + b.pause.to : ""}</b>Pause ist Teil des Prozesses.</div>` : b.html).join("");
-    out += `<details class="mfold" data-key="${key}" ${openMonths.has(key) ? "open" : ""}><summary><span class="mname">${MONTHS[m]} ${y}</span><span class="msum">${mt.filter(isKraft).length}× Kraft · ${mt.filter(isCardio).length}× Cardio${stars ? ` · ${stars}× ★` : ""}</span></summary>${html}</details>`;
+    out += `<details class="mfold" data-key="${key}" ${openMonths.has(key) ? "open" : ""}><summary><span class="mname">${MONTHS[m]} ${y}</span><span class="msum">${mt.filter(isKraft).length}× Kraft · ${mt.filter(t => t.r).length}× Rudern${mt.some(t => t.lb) ? ` · ${mt.filter(t => t.lb).length}× LB` : ""}${stars ? ` · ${stars}× ★` : ""}</span></summary>${html}</details>`;
   }
   document.getElementById("buch").innerHTML = `<h2>Trainingsbuch</h2>` + out;
 }
@@ -496,14 +498,14 @@ function renderMosaik(D) {
   for (let y = now.getFullYear(), m = now.getMonth(); y * 12 + m >= start.getFullYear() * 12 + start.getMonth(); m--, m < 0 && (m = 11, y--)) {
     const first = new Date(y, m, 1), n = new Date(y, m + 1, 0).getDate();
     let cells = WD.map(w => `<div class="wd">${w}</div>`).join("") + "<div></div>".repeat(wdIdx(first));
-    let kc = 0, rc = 0;
+    let kc = 0, rc = 0, lc = 0;
     for (let d = 1; d <= n; d++) {
-      const ds = iso(new Date(y, m, d)), ts = byDay.get(ds) || [], k = ts.some(isKraft), r = ts.some(isCardio);
-      kc += k; rc += r;
-      const cls = ds < iso(start) ? "pre" : ds > today() ? "fut" : k && r ? "kr" : k ? "k" : r ? "r" : "";
+      const ds = iso(new Date(y, m, d)), ts = byDay.get(ds) || [], k = ts.some(isKraft), r = ts.some(t => t.r), l = ts.some(t => t.lb);
+      kc += k; rc += r; lc += l;
+      const cls = ds < iso(start) ? "pre" : ds > today() ? "fut" : (k && r ? "kr" : k ? "k" : r ? "r" : "") + (l ? " lb" : "");
       cells += `<div class="cell ${cls}">${d}${starDays.has(ds) ? '<span class="st">★</span>' : ""}</div>`;
     }
-    out += `<div class="month"><div class="mhead"><h2>${MONTHS[m]} ${y}</h2><span>${kc}× Kraft · ${rc}× Cardio</span></div><div class="mgrid">${cells}</div></div>`;
+    out += `<div class="month"><div class="mhead"><h2>${MONTHS[m]} ${y}</h2><span>${kc}× Kraft · ${rc}× Rudern${lc ? ` · ${lc}× LB` : ""}</span></div><div class="mgrid">${cells}</div></div>`;
   }
   document.getElementById("mosaik").innerHTML = out;
 }
