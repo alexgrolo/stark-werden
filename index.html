@@ -19,7 +19,7 @@
 :root {
   --bg: #F5F5F2; --surface: #FFFFFF; --ink: #23231F; --muted: #6A6964; --rule: #E2E1DB;
   --kh: #D23F3E; --p: #4F8A18; --kb: #2F7CCB; --r: #6F66D0; --lb: #17876D;
-  --kraft: #F4BCC4; --ruder: #B3D4F2; --lauf: #7FD3B5; --tint-ink: #3D3D3A; --accent: #23231F; --on-accent: #FFFFFF;
+  --kraft: #F4BCC4; --ruder: #B3D4F2; --lauf: #7FD3B5; --mob: #B9770E; --tint-ink: #3D3D3A; --accent: #23231F; --on-accent: #FFFFFF;
   --good: #3B7A2A; --warn: #A2620C;
   --f-display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Source Sans 3", "Segoe UI", -apple-system, Roboto, Arial, sans-serif;
@@ -28,12 +28,12 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #161614; --surface: #201F1C; --ink: #EDECE6; --muted: #A3A19A; --rule: #34332E;
   --kh: #F07C7B; --p: #8CC45A; --kb: #6CAEF0; --r: #A69FF0; --lb: #5CC9A8;
-  --kraft: #8E4E58; --ruder: #3E6488; --lauf: #3E8E74; --tint-ink: #F3F1EA; --accent: #EDECE6; --on-accent: #161614;
+  --kraft: #8E4E58; --ruder: #3E6488; --lauf: #3E8E74; --mob: #E3A653; --tint-ink: #F3F1EA; --accent: #EDECE6; --on-accent: #161614;
   --good: #8CC45A; --warn: #E3A653; color-scheme: dark } }
 :root[data-theme="dark"] {
   --bg: #161614; --surface: #201F1C; --ink: #EDECE6; --muted: #A3A19A; --rule: #34332E;
   --kh: #F07C7B; --p: #8CC45A; --kb: #6CAEF0; --r: #A69FF0; --lb: #5CC9A8;
-  --kraft: #8E4E58; --ruder: #3E6488; --lauf: #3E8E74; --tint-ink: #F3F1EA; --accent: #EDECE6; --on-accent: #161614;
+  --kraft: #8E4E58; --ruder: #3E6488; --lauf: #3E8E74; --mob: #E3A653; --tint-ink: #F3F1EA; --accent: #EDECE6; --on-accent: #161614;
   --good: #8CC45A; --warn: #E3A653; color-scheme: dark }
 
 * { box-sizing: border-box }
@@ -66,7 +66,9 @@ section[hidden] { display: none }
 /* Formular */
 .btn.sm { padding: 8px 14px; font-size: 14px }
 #formcard .ex { align-items: start } #formcard .ex .tag { padding-top: 9px }
-#formcard input[type=number], #formcard input.sets { width: 4.4em }
+#formcard input[type=number], #formcard input.sets { width: 3.9em }
+#formcard .ex .row { gap: 8px; flex-wrap: nowrap }
+.ivrow { margin-top: 6px }
 .datebar { justify-content: space-between; padding-bottom: 6px }
 h3.fh { margin: 14px 0 2px; color: var(--ink) }
 .ex .last { display: flex; gap: 6px; flex-wrap: wrap }
@@ -83,7 +85,20 @@ h3.fh { margin: 14px 0 2px; color: var(--ink) }
 .titem .v { flex: 1; min-width: 0 }
 .rm { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 13px; text-decoration: underline; text-underline-offset: 3px }
 .rm.sure { color: var(--kh); font-weight: 700 }
-.c-lb { color: var(--lb) }
+.ivnote { display: flex; gap: 12px; align-items: center; margin: 0 0 14px; padding: 12px 14px; border-radius: var(--radius); border: 1.5px solid var(--ruder); background: var(--surface); font-weight: 600 }
+.ivnote::before { content: ""; flex: none; width: 34px; height: 34px; border-radius: 8px; background: repeating-linear-gradient(45deg, var(--ruder) 0 5px, var(--surface) 5px 8px); border: 1px solid var(--ruder) }
+.ivnote small { display: block; font-weight: 400; color: var(--muted); font-size: 13px }
+.c-lb { color: var(--lb) } .c-mob { color: var(--mob) }
+.ok { width: 38px; height: 38px; flex: none; border-radius: 50%; border: 1.5px solid var(--rule); background: var(--surface); color: var(--muted); display: grid; place-items: center; cursor: pointer; padding: 0 }
+.ok svg { width: 20px; height: 20px }
+.ok:hover, .ok:focus-visible { border-color: var(--good); color: var(--good) }
+.ex.done .row { opacity: .35 }
+.doneline { font-size: 14px; color: var(--good); font-weight: 600 }
+.linkbtn { background: none; border: 0; padding: 0 0 0 8px; color: var(--ink); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer }
+.ivl { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: var(--muted); white-space: nowrap }
+.mobbtn { border: 1.5px solid var(--mob); color: var(--ink); background: var(--surface); border-radius: 999px; padding: 7px 14px; font: 600 15px var(--f-body); cursor: pointer }
+.mobbtn::before { content: "◇ "; color: var(--mob) }
+.ex.done .mobbtn { display: none }
 .card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 14px }
 .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
 label.lbl { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted) }
@@ -116,7 +131,7 @@ textarea { width: 100%; min-height: 72px; resize: vertical }
 .entry .d small { display: block; font-weight: 400; color: var(--muted); font-size: 13px }
 .entry .vals { display: flex; flex-wrap: wrap; gap: 2px 14px; min-width: 0 }
 .entry .dots { color: var(--ink); letter-spacing: 1px; font-size: 12px; white-space: nowrap }
-.entry .del { grid-column: 2 / 4 }
+.entry .acts { grid-column: 2 / 4; display: flex; gap: 14px }
 .entry .note { grid-column: 2 / 4; color: var(--muted); font-size: 14px }
 .c-kh { color: var(--kh) } .c-p { color: var(--p) } .c-kb { color: var(--kb) } .c-r { color: var(--r) }
 .wband { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--rule); font-weight: 700 }
@@ -153,6 +168,10 @@ svg { display: block; width: 100%; height: auto }
 .cell.fut { opacity: .45 }
 .cell .st { position: absolute; right: 4px; top: 2px; font-size: 13px; z-index: 1 }
 .cell { overflow: hidden }
+.cell.r.iv { background: repeating-linear-gradient(45deg, var(--ruder) 0 4px, var(--surface) 4px 6px) }
+.cell.kr.iv { background: linear-gradient(to bottom right, var(--kraft) 49%, var(--surface) 49.5%, var(--surface) 50.5%, transparent 51%), repeating-linear-gradient(45deg, var(--ruder) 0 4px, var(--surface) 4px 6px) }
+.cell.mob::before { content: ""; position: absolute; left: 4px; bottom: 4px; width: 7px; height: 7px; border-radius: 50%; background: var(--mob); z-index: 2; box-shadow: 0 0 0 1.5px var(--surface) }
+.cell.mob.lb::before { bottom: calc(24% + 4px) }
 .cell.lb::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 24%; background: var(--lauf); border-top: 1.5px solid var(--surface) }
 .mhead { display: flex; flex-wrap: wrap; gap: 0 12px; justify-content: space-between; align-items: baseline; max-width: 360px }
 .mhead span { font-size: 14px; color: var(--muted) }
@@ -221,22 +240,25 @@ details summary { cursor: pointer; font-weight: 600; color: var(--muted) }
   <!-- 1 Buch -->
   <section id="v-buch" data-view>
     <button type="button" class="slogan" id="slogan"><span class="q">„</span>You have to work it, baby!<span class="q">“</span><small>Training eintragen ↓</small></button>
+    <div class="ivnote" id="ivnote" hidden></div>
     <div class="card" id="formcard">
       <div class="row datebar"><label class="lbl" for="t-date">Training am</label><input type="date" id="t-date"></div>
       <h3 class="fh">△ Kraft</h3>
-        <form class="ex" data-ex="kh" autocomplete="off"><span class="tag c-kh">KH</span><div><div class="row"><input type="number" step="0.5" min="0" id="kh-kg" placeholder="kg" inputmode="decimal" aria-label="Kreuzheben kg"><input class="sets" id="kh-s" placeholder="5×3" aria-label="Kreuzheben Sätze × Wdh."><button class="btn sm" type="submit">Eintragen</button></div><div class="last"><span class="mark c-kh" id="kh-m"></span><span id="kh-last"></span></div><div class="err" role="alert"></div></div></form>
-        <form class="ex" data-ex="p" autocomplete="off"><span class="tag c-p">P</span><div><div class="row"><input type="number" step="0.5" min="0" id="p-kg" placeholder="kg" inputmode="decimal" aria-label="Press kg"><input class="sets" id="p-s" placeholder="5×3" aria-label="Press Sätze × Wdh."><button class="btn sm" type="submit">Eintragen</button></div><div class="last"><span class="mark c-p" id="p-m"></span><span id="p-last"></span></div><div class="err" role="alert"></div></div></form>
-        <form class="ex" data-ex="kb" autocomplete="off"><span class="tag c-kb">KB</span><div><div class="row"><input type="number" step="0.5" min="0" id="kb-kg" placeholder="kg" inputmode="decimal" aria-label="Kniebeuge kg"><input class="sets" id="kb-s" placeholder="5×3" aria-label="Kniebeuge Sätze × Wdh."><button class="btn sm" type="submit">Eintragen</button></div><div class="last"><span class="mark c-kb" id="kb-m"></span><span id="kb-last"></span></div><div class="err" role="alert"></div></div></form>
+        <form class="ex" data-ex="kh" autocomplete="off"><span class="tag c-kh">KH</span><div><div class="row"><input type="number" step="0.5" min="0" id="kh-kg" placeholder="kg" inputmode="decimal" aria-label="Kreuzheben kg"><input class="sets" id="kh-s" placeholder="5×3" aria-label="Kreuzheben Sätze × Wdh."><button class="ok" type="submit" aria-label="Eintragen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="last"><span class="mark c-kh" id="kh-m"></span><span id="kh-last"></span></div><div class="doneline" hidden></div><div class="err" role="alert"></div></div></form>
+        <form class="ex" data-ex="p" autocomplete="off"><span class="tag c-p">P</span><div><div class="row"><input type="number" step="0.5" min="0" id="p-kg" placeholder="kg" inputmode="decimal" aria-label="Press kg"><input class="sets" id="p-s" placeholder="5×3" aria-label="Press Sätze × Wdh."><button class="ok" type="submit" aria-label="Eintragen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="last"><span class="mark c-p" id="p-m"></span><span id="p-last"></span></div><div class="doneline" hidden></div><div class="err" role="alert"></div></div></form>
+        <form class="ex" data-ex="kb" autocomplete="off"><span class="tag c-kb">KB</span><div><div class="row"><input type="number" step="0.5" min="0" id="kb-kg" placeholder="kg" inputmode="decimal" aria-label="Kniebeuge kg"><input class="sets" id="kb-s" placeholder="5×3" aria-label="Kniebeuge Sätze × Wdh."><button class="ok" type="submit" aria-label="Eintragen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="last"><span class="mark c-kb" id="kb-m"></span><span id="kb-last"></span></div><div class="doneline" hidden></div><div class="err" role="alert"></div></div></form>
       <h3 class="fh">◯ Cardio</h3>
-        <form class="ex" data-ex="r" autocomplete="off"><span class="tag c-r">R</span><div><div class="row"><input type="number" min="0" id="r-min" placeholder="Min." inputmode="numeric" aria-label="Rudern Minuten"><input type="number" min="0" id="r-w" placeholder="Ø W" inputmode="numeric" aria-label="Rudern Watt"><button class="btn sm" type="submit">Eintragen</button></div><div class="last"><span class="mark c-r" id="r-m"></span><span id="r-last"></span></div><div class="err" role="alert"></div></div></form>
-        <form class="ex" data-ex="lb" autocomplete="off"><span class="tag c-lb">LB</span><div><div class="row"><input type="number" min="0" id="lb-min" placeholder="Min." inputmode="numeric" aria-label="Laufband Minuten"><input type="number" step="0.01" min="0" id="lb-km" placeholder="km" inputmode="decimal" aria-label="Laufband Kilometer"><input class="sets" id="lb-pace" placeholder="Pace" inputmode="decimal" aria-label="Laufband Pace in Minuten pro Kilometer"><button class="btn sm" type="submit">Eintragen</button></div><div class="last"><span class="mark c-lb" id="lb-m"></span><span id="lb-last"></span></div><div class="err" role="alert"></div></div></form>
+        <form class="ex" data-ex="r" autocomplete="off"><span class="tag c-r">R</span><div><div class="row"><input type="number" min="0" id="r-min" placeholder="min" inputmode="numeric" aria-label="Rudern Minuten"><input type="number" min="0" id="r-w" placeholder="W" inputmode="numeric" aria-label="Rudern Watt"><button class="ok" type="submit" aria-label="Eintragen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><label class="ivl ivrow"><input type="checkbox" id="r-iv"> Intervall-Rudern (jedes 4. Mal)</label><div class="last"><span class="mark c-r" id="r-m"></span><span id="r-last"></span></div><div class="doneline" hidden></div><div class="err" role="alert"></div></div></form>
+        <form class="ex" data-ex="lb" autocomplete="off"><span class="tag c-lb">LB</span><div><div class="row"><input type="number" min="0" id="lb-min" placeholder="min" inputmode="numeric" aria-label="Laufband Minuten"><input type="number" step="0.01" min="0" id="lb-km" placeholder="km" inputmode="decimal" aria-label="Laufband Kilometer"><input class="sets" id="lb-pace" placeholder="Pace" inputmode="decimal" aria-label="Laufband Pace in Minuten pro Kilometer"><button class="ok" type="submit" aria-label="Eintragen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="last"><span class="mark c-lb" id="lb-m"></span><span id="lb-last"></span></div><div class="doneline" hidden></div><div class="err" role="alert"></div></div></form>
+      <h3 class="fh">◇ Mobility</h3>
+        <form class="ex" data-ex="mob" autocomplete="off"><span class="tag c-mob">SM</span><div><button class="mobbtn" type="submit">Schulterstange erledigt</button><div class="last"><span id="mob-last"></span></div><div class="doneline" hidden></div><div class="err" role="alert"></div></div></form>
       <h3 class="fh">Wie war's?</h3>
       <form id="f-day" autocomplete="off">
         <div class="feel" id="feel" role="group" aria-label="Gefühl 1 bis 5"></div>
         <p class="feeltext" id="feeltext"></p>
         <details class="feelhelp"><summary>Was bedeuten die Punkte?</summary><ol id="feellist"></ol></details>
         <input id="t-note" placeholder="Notiz zum Tag (optional)" style="width:100%;margin-top:10px" aria-label="Notiz">
-        <div class="row" style="margin-top:10px;justify-content:space-between"><span class="err" id="d-err" role="alert"></span><button class="btn sm" type="submit">Speichern</button></div>
+        <div class="row" style="margin-top:10px;justify-content:space-between"><span class="err" id="d-err" role="alert"></span><button class="btn sm ghost" type="submit">Speichern</button></div>
       </form>
     </div>
     <div id="today"></div>
@@ -255,7 +277,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--muted) }
   <!-- 3 Mosaik -->
   <section id="v-mosaik" data-view hidden>
     <h2>Monats-Mosaik</h2>
-    <div class="legend"><span><i style="background:var(--kraft)"></i>Kraft</span><span><i style="background:var(--ruder)"></i>Rudern</span><span><i style="background:linear-gradient(to bottom right,var(--kraft) 49%,var(--ruder) 51%)"></i>beides</span><span><i style="background:var(--surface);box-shadow:inset 0 -4px 0 var(--lauf);border:1px solid var(--rule)"></i>Laufband (Streifen)</span><span>★ Rekordtag</span></div>
+    <div class="legend"><span><i style="background:var(--kraft)"></i>Kraft</span><span><i style="background:var(--ruder)"></i>Rudern</span><span><i style="background:linear-gradient(to bottom right,var(--kraft) 49%,var(--ruder) 51%)"></i>beides</span><span><i style="background:repeating-linear-gradient(45deg,var(--ruder) 0 3px,var(--surface) 3px 5px)"></i>Intervall-Rudern</span><span><i style="background:var(--surface);box-shadow:inset 0 -4px 0 var(--lauf);border:1px solid var(--rule)"></i>Laufband (Streifen)</span><span><i style="background:var(--mob);border-radius:50%;width:8px;height:8px"></i>Schulter-Mobility</span><span>★ Rekordtag</span></div>
     <div id="mosaik"></div>
   </section>
 
@@ -295,7 +317,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--muted) }
     <details>
       <summary>Konto</summary>
       <p class="hint" id="who"></p>
-      <p class="hint">App-Version 4 · 26.10.2026</p>
+      <p class="hint">App-Version 6 · 29.10.2026</p>
       <div class="row" style="margin-top:8px"><button class="btn ghost" type="button" id="b-logout">Abmelden</button></div>
     </details>
   </div>
@@ -376,11 +398,13 @@ function derive() {
 }
 const isKraft = t => EX.some(([k]) => t[k]);
 const isCardio = t => !!(t.r || t.lb);
+const isTraining = t => isKraft(t) || isCardio(t);
 const FEEL = [["Zäh", "kaum Energie, jeder Satz war Arbeit"], ["Schwer", "eher Pflicht als Freude"], ["Okay", "solide Einheit, nichts Besonderes"], ["Gut", "kraftvoll, hat Spaß gemacht"], ["Top", "alles lief, ich hätte noch mehr gekonnt"]];
 const fmtKm = v => fmt(Math.round(v * 100) / 100);
 function valText(t, k, m) {
   if (EX.some(([e]) => e === k)) return `${fmt(t[k].kg)} kg${t[k].s ? " · " + t[k].s : ""}${m[k] ? " " + m[k] : ""}`;
-  if (k === "r") return `${t.r.min}′${t.r.w ? " · " + t.r.w + " W" : ""}${inZone(t.r) ? " ✓" : ""}${m.r ? " " + m.r : ""}`;
+  if (k === "r") return `${t.r.min}′${t.r.w ? " · " + t.r.w + " W" : ""}${t.r.iv ? " · Intervall" : ""}${inZone(t.r) ? " ✓" : ""}${m.r ? " " + m.r : ""}`;
+  if (k === "mob") return "Schulterstange ✓";
   if (k === "lb") return `${t.lb.min}′${t.lb.km ? " · " + fmtKm(t.lb.km) + " km" : ""}${t.lb.pace ? " · " + t.lb.pace + "/km" : ""}${m.lb ? " " + m.lb : ""}`;
   return "";
 }
@@ -389,7 +413,7 @@ const inZone = r => r && r.w >= S.zone[0] && r.w <= S.zone[1];
 // ---------- Kopf ----------
 function renderHead(D) {
   const mon = iso(monday(new Date()));
-  const n = new Set(D.ts.filter(t => t.d >= mon).map(t => t.d)).size;
+  const n = new Set(D.ts.filter(t => t.d >= mon && isTraining(t)).map(t => t.d)).size;
   document.getElementById("weekpill").innerHTML = `KW ${isoWeek(new Date())} <b>${n}/${S.goal}</b>`;
 }
 
@@ -399,15 +423,17 @@ function entryHTML(t, m) {
   for (const [k, tag] of EX) if (t[k]) vals.push(`<span class="c-${k}">${tag} ${fmt(t[k].kg)}${t[k].s ? " · " + t[k].s : ""}${m[k] ? " " + m[k] : ""}</span>`);
   if (t.r) vals.push(`<span class="c-r">R ${valText(t, "r", m)}</span>`);
   if (t.lb) vals.push(`<span class="c-lb">LB ${valText(t, "lb", m)}</span>`);
-  const sym = (isKraft(t) ? "△" : "") + (isCardio(t) ? " ◯" : "");
+  if (t.mob) vals.push(`<span class="c-mob">◇ Schulterstange</span>`);
+  const sym = [isKraft(t) && "△", isCardio(t) && "◯", t.mob && "◇"].filter(Boolean).join(" ");
   const dots = t.feel ? "●".repeat(t.feel) + "○".repeat(5 - t.feel) : "";
-  return `<div class="entry"><div class="d">${WD[wdIdx(dt)]} ${dmy(t.d)}<small>${sym}</small></div><div class="vals">${vals.join("")}</div><div class="dots">${dots}</div>${t.note ? `<div class="note">${esc(t.note)}</div>` : ""}<button class="del" type="button" data-del="trainings/${t.id}">Löschen</button></div>`;
+  return `<div class="entry"><div class="d">${WD[wdIdx(dt)]} ${dmy(t.d)}<small>${sym}</small></div><div class="vals">${vals.join("")}</div><div class="dots">${dots}</div>${t.note ? `<div class="note">${esc(t.note)}</div>` : ""}<div class="acts"><button class="del" type="button" data-editday="${t.d}">Bearbeiten</button> <button class="del" type="button" data-del="trainings/${t.id}">Löschen</button></div></div>`;
 }
 function boxesHTML(mon, byDay) {
   let h = "";
   for (let i = 0; i < 7; i++) { const d = new Date(mon); d.setDate(d.getDate() + i); const ts = byDay.get(iso(d)) || [];
-    const k = ts.some(isKraft), r = ts.some(t => t.r), l = ts.some(t => t.lb);
-    h += `<span class="bx" style="${l ? "box-shadow:inset 0 -5px 0 var(--lauf);" : ""}${k && r ? "background:linear-gradient(to bottom right,var(--kraft) 49%,var(--surface) 49.5%,var(--surface) 50.5%,var(--ruder) 51%);border-color:var(--kraft)" : k ? "background:var(--kraft);border-color:var(--kraft)" : r ? "background:var(--ruder);border-color:var(--ruder)" : ""}"></span>`; }
+    const k = ts.some(isKraft), r = ts.some(t => t.r), l = ts.some(t => t.lb), iv = ts.some(t => t.r && t.r.iv);
+    const rb = iv ? "repeating-linear-gradient(45deg,var(--ruder) 0 3px,var(--surface) 3px 5px)" : "var(--ruder)";
+    h += `<span class="bx" style="${l ? "box-shadow:inset 0 -5px 0 var(--lauf);" : ""}${k && r && iv ? "background:linear-gradient(to bottom right,var(--kraft) 49%,var(--surface) 49.5%,var(--surface) 50.5%,transparent 51%)," + rb + ";border-color:var(--kraft)" : r && !k && iv ? "background:" + rb + ";border-color:var(--ruder)" : ""}${(k && r && iv) || (r && !k && iv) ? "" : k && r ? "background:linear-gradient(to bottom right,var(--kraft) 49%,var(--surface) 49.5%,var(--surface) 50.5%,var(--ruder) 51%);border-color:var(--kraft)" : k ? "background:var(--kraft);border-color:var(--kraft)" : r ? "background:var(--ruder);border-color:var(--ruder)" : ""}"></span>`; }
   return `<span class="boxes">${h}</span>`;
 }
 const openMonths = new Set();
@@ -428,7 +454,7 @@ function renderBuch(D) {
     }
     pauseRun = null;
     for (const t of days) blocks.push({ m: pd(t.d), html: entryHTML(t, D.marks.get(t)) });
-    const n = new Set(days.map(t => t.d)).size, done = iso(end) < today();
+    const n = new Set(days.filter(isTraining).map(t => t.d)).size, done = iso(end) < today();
     const mEnd = done ? end : (days.length ? pd(days[days.length - 1].d) : new Date());
     blocks.push({ m: mEnd, html: `<div class="wband"><span class="kw">KW ${kw}</span>${boxesHTML(w, byDay)}<span class="cnt ${n >= S.goal ? "ok" : ""}">${n}/${S.goal}${n >= S.goal ? " ✓" : ""}${done ? "" : " · läuft"}</span></div>` });
   }
@@ -498,14 +524,14 @@ function renderMosaik(D) {
   for (let y = now.getFullYear(), m = now.getMonth(); y * 12 + m >= start.getFullYear() * 12 + start.getMonth(); m--, m < 0 && (m = 11, y--)) {
     const first = new Date(y, m, 1), n = new Date(y, m + 1, 0).getDate();
     let cells = WD.map(w => `<div class="wd">${w}</div>`).join("") + "<div></div>".repeat(wdIdx(first));
-    let kc = 0, rc = 0, lc = 0;
+    let kc = 0, rc = 0, lc = 0, mc = 0;
     for (let d = 1; d <= n; d++) {
-      const ds = iso(new Date(y, m, d)), ts = byDay.get(ds) || [], k = ts.some(isKraft), r = ts.some(t => t.r), l = ts.some(t => t.lb);
-      kc += k; rc += r; lc += l;
-      const cls = ds < iso(start) ? "pre" : ds > today() ? "fut" : (k && r ? "kr" : k ? "k" : r ? "r" : "") + (l ? " lb" : "");
+      const ds = iso(new Date(y, m, d)), ts = byDay.get(ds) || [], k = ts.some(isKraft), r = ts.some(t => t.r), l = ts.some(t => t.lb), iv = ts.some(t => t.r && t.r.iv), mo = ts.some(t => t.mob);
+      kc += k; rc += r; lc += l; mc += mo;
+      const cls = ds < iso(start) ? "pre" : ds > today() ? "fut" : (k && r ? "kr" : k ? "k" : r ? "r" : "") + (l ? " lb" : "") + (iv ? " iv" : "") + (mo ? " mob" : "");
       cells += `<div class="cell ${cls}">${d}${starDays.has(ds) ? '<span class="st">★</span>' : ""}</div>`;
     }
-    out += `<div class="month"><div class="mhead"><h2>${MONTHS[m]} ${y}</h2><span>${kc}× Kraft · ${rc}× Rudern${lc ? ` · ${lc}× LB` : ""}</span></div><div class="mgrid">${cells}</div></div>`;
+    out += `<div class="month"><div class="mhead"><h2>${MONTHS[m]} ${y}</h2><span>${kc}× Kraft · ${rc}× Rudern${lc ? ` · ${lc}× LB` : ""}${mc ? ` · ${mc}× ◇` : ""}</span></div><div class="mgrid">${cells}</div></div>`;
   }
   document.getElementById("mosaik").innerHTML = out;
 }
@@ -521,7 +547,7 @@ function renderRekorde(D) {
   let g = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Zielband Rudern">`;
   for (let v = 0; v <= max; v += 10) g += `<line x1="${X(v)}" x2="${X(v)}" y1="${top - 6}" y2="${H - 4}" stroke="var(--rule)"/><text x="${X(v)}" y="${top - 10}" text-anchor="middle" font-size="11" fill="var(--muted)">${v}</text>`;
   rs.slice().reverse().forEach((t, i) => { const y = top + i * rh, z = inZone(t.r);
-    g += `<text x="4" y="${y + 13}" font-size="11" fill="var(--muted)">${dmy(t.d)}</text><rect x="${L}" y="${y + 3}" width="${X(t.r.min) - L}" height="12" rx="3" fill="${z ? "var(--ruder)" : "none"}" stroke="${z ? "none" : "var(--kb)"}" stroke-width="1.2"/><text x="${R + 8}" y="${y + 13}" font-size="11" fill="var(--muted)">${t.r.w} W</text>`; });
+    g += `<text x="4" y="${y + 13}" font-size="11" fill="var(--muted)">${dmy(t.d)}</text><rect x="${L}" y="${y + 3}" width="${X(t.r.min) - L}" height="12" rx="3" fill="${z ? "var(--ruder)" : "none"}" stroke="${z ? "none" : "var(--kb)"}" stroke-width="1.2"/><text x="${R + 8}" y="${y + 13}" font-size="11" fill="var(--muted)">${t.r.w} W${t.r.iv ? " · I" : ""}</text>`; });
   document.getElementById("ch-zb").innerHTML = g + "</svg>";
 }
 
@@ -539,6 +565,8 @@ function renderJournal() {
 
 // ---------- Formular ----------
 let feel = 0, feelTouched = false;
+const editing = new Set();
+const ROWKEYS = ["kh", "p", "kb", "r", "lb", "mob"];
 const selDate = () => document.getElementById("t-date").value || today();
 const dayDocs = d => S.trainings.filter(t => t.d === d).sort((a, b) => (a.created || 0) - (b.created || 0));
 function renderForm(D) {
@@ -546,14 +574,36 @@ function renderForm(D) {
     document.getElementById(k + "-last").textContent = t ? `Zuletzt ${dmy(t.d)}: ${fmt(t[k].kg)} kg${t[k].s ? " · " + t[k].s : ""} · Rekord ${fmt(D.best[k])} kg` : `${name}: noch kein Eintrag`;
     const si = document.getElementById(k + "-s"); if (t && t[k].s && !si.value && document.activeElement !== si) si.value = t[k].s; }
   const tr = [...D.ts].reverse().find(t => t.r);
-  document.getElementById("r-last").textContent = tr ? `Zuletzt ${dmy(tr.d)}: ${tr.r.min}′ · ${tr.r.w} W · Ziel ${S.zone[0]}–${S.zone[1]} W` : "Ziel " + S.zone[0] + "–" + S.zone[1] + " W";
+  const ivs = intervalState(D);
+  document.getElementById("r-last").textContent = (tr ? `Zuletzt ${dmy(tr.d)}: ${tr.r.min}′ · ${tr.r.w} W · Ziel ${S.zone[0]}–${S.zone[1]} W` : "Ziel " + S.zone[0] + "–" + S.zone[1] + " W") + (ivs.due ? " · heute Intervall" : ` · Intervall in ${ivs.left + 1} Einheit${ivs.left ? "en" : ""}`);
   const tl = [...D.ts].reverse().find(t => t.lb);
   document.getElementById("lb-last").textContent = tl ? `Zuletzt ${dmy(tl.d)}: ${valText(tl, "lb", {})}` : "Pace leer lassen, dann rechnet die App sie aus Minuten und km.";
   if (!feelTouched) { const dd = dayDocs(selDate()); feel = (dd.find(t => t.feel) || {}).feel || 0; const n = (dd.find(t => t.note) || {}).note; const ni = document.getElementById("t-note"); if (document.activeElement !== ni) ni.value = n || ""; }
   document.getElementById("feel").innerHTML = [1, 2, 3, 4, 5].map(i => `<button type="button" class="${i <= feel ? "on" : ""}" data-feel="${i}" aria-label="Gefühl ${i}: ${FEEL[i - 1][0]}" aria-pressed="${i === feel}">${i}</button>`).join("");
   document.getElementById("feeltext").innerHTML = feel ? `<b>${feel} · ${FEEL[feel - 1][0]}</b> – ${FEEL[feel - 1][1]}` : "Tippe an, wie sich das Training angefühlt hat: 1 = zäh … 5 = top.";
   document.getElementById("feellist").innerHTML = FEEL.map(([a, b]) => `<li><b>${a}</b> – ${b}</li>`).join("");
+  // Schulter-Mobility: Wochenzähler
+  const mon = monday(pd(selDate())), mdays = new Set(D.ts.filter(t => t.mob && t.d >= iso(mon) && pd(t.d) - mon < 7 * 864e5).map(t => t.d)).size;
+  document.getElementById("mob-last").textContent = `Einmal am Tag · diese Woche ${mdays}/7`;
+  // Was für den gewählten Tag schon eingetragen ist, wird blass und gesperrt
+  const dd = dayDocs(selDate());
+  for (const k of ROWKEYS) {
+    const f = document.querySelector(`form[data-ex="${k}"]`), has = dd.find(t => t[k]), done = !!has && !editing.has(k);
+    f.classList.toggle("done", done);
+    f.querySelectorAll("input, button[type=submit]").forEach(i => i.disabled = done);
+    const dl = f.querySelector(".doneline"); dl.hidden = !done;
+    if (done) dl.innerHTML = k === "mob" ? "✓ Heute erledigt" : `✓ Eingetragen: ${valText(has, k, D.marks.get(has) || {})}<button class="linkbtn" type="button" data-edit="${k}">Bearbeiten</button>`;
+  }
   liveMarks(D);
+}
+function startEdit(k) {
+  const has = dayDocs(selDate()).find(t => t[k]); if (!has) return;
+  editing.add(k); const v = has[k], set = (id, x) => { document.getElementById(id).value = x ?? ""; };
+  if (EX.some(([e]) => e === k)) { set(k + "-kg", v.kg); set(k + "-s", v.s); }
+  if (k === "r") { set("r-min", v.min); set("r-w", v.w || ""); document.getElementById("r-iv").checked = !!v.iv; }
+  if (k === "lb") { set("lb-min", v.min); set("lb-km", v.km); set("lb-pace", v.pace); }
+  renderForm(D);
+  const f = document.querySelector(`form[data-ex="${k}"]`); f.scrollIntoView({ block: "center", behavior: "smooth" }); f.querySelector("input").focus({ preventScroll: true });
 }
 function liveMarks(D) {
   for (const [k] of EX) { const v = parseFloat(document.getElementById(k + "-kg").value);
@@ -563,19 +613,39 @@ function liveMarks(D) {
   const km = parseFloat(String(document.getElementById("lb-km").value).replace(",", "."));
   document.getElementById("lb-m").textContent = isNaN(km) ? "" : km > (D.best.lb ?? Infinity) ? "★ Rekord" : "";
 }
+// ---------- Intervall-Zähler ----------
+// Jede 4. Rudereinheit ist Intervall. Gezählt wird ab dem letzten Intervall;
+// gibt es noch keins, ab dem Start der Regel (29.10.2026). Wer Intervall ankreuzt, setzt den Zähler zurück.
+const IV_EVERY = 4, IV_START = "2026-10-29";
+function intervalState(D) {
+  const rows = D.ts.filter(t => t.r && t.d < today());
+  const lastIv = [...rows].reverse().find(t => t.r.iv);
+  const since = rows.filter(t => lastIv ? t.d > lastIv.d : t.d >= IV_START).length;
+  const todayR = D.ts.find(t => t.r && t.d === today());
+  return { since, due: since >= IV_EVERY - 1, left: Math.max(0, IV_EVERY - 1 - since), todayR };
+}
+function renderIntervalNote(D) {
+  const st = intervalState(D), box = document.getElementById("ivnote");
+  if (st.todayR) { box.hidden = !st.todayR.r.iv; box.innerHTML = `<div>Intervall-Rudern erledigt <small>Stark! Der Zähler beginnt wieder von vorn.</small></div>`; return; }
+  box.hidden = !st.due;
+  box.innerHTML = `<div>Heute ist Intervall-Rudern dran <small>Das ist deine 4. Rudereinheit seit dem letzten Intervall.</small></div>`;
+  const cb = document.getElementById("r-iv"); if (st.due && selDate() === today() && !editing.has("r") && !cb.dataset.touched) cb.checked = true;
+}
+
 // ---------- Heute ----------
 function renderToday(D) {
   const d = selDate(), dt = pd(d), docs = D.ts.filter(t => t.d === d), isToday = d === today();
   const items = [];
   for (const t of docs) { const m = D.marks.get(t) || {};
-    for (const [k, tag] of [...EX.map(([k, tag]) => [k, tag]), ["r", "R"], ["lb", "LB"]]) if (t[k]) items.push(`<div class="titem"><b class="c-${k}">${tag}</b><span class="v c-${k}">${valText(t, k, m)}</span><button class="rm" type="button" data-rm="${t.id}/${k}">Entfernen</button></div>`); }
+    for (const [k, tag] of [...EX.map(([k, tag]) => [k, tag]), ["r", "R"], ["lb", "LB"], ["mob", "◇"]]) if (t[k]) items.push(`<div class="titem"><b class="c-${k}">${tag}</b><span class="v c-${k}">${valText(t, k, m)}</span>${k !== "mob" ? `<button class="rm" type="button" data-edit="${k}">Bearbeiten</button>` : ""}<button class="rm" type="button" data-rm="${t.id}/${k}">Entfernen</button></div>`); }
   const fd = docs.find(t => t.feel), nd = docs.find(t => t.note);
   if (fd) items.push(`<div class="titem"><b>${"●".repeat(fd.feel)}${"○".repeat(5 - fd.feel)}</b><span class="v">${FEEL[fd.feel - 1][0]}</span><button class="rm" type="button" data-rm="${fd.id}/feel">Entfernen</button></div>`);
   if (nd) items.push(`<div class="titem"><span class="v">${esc(nd.note)}</span><button class="rm" type="button" data-rm="${nd.id}/note">Entfernen</button></div>`);
   document.getElementById("today").innerHTML = `<h2>${isToday ? "Heute" : "Training am"} · ${WD[wdIdx(dt)]} ${dmy(d)}</h2>` + (items.length ? items.join("") : `<p class="hint" style="margin:0">${isToday ? "Noch nichts eingetragen. You have to work it, baby!" : "An diesem Tag ist nichts eingetragen."}</p>`);
 }
 async function saveFields(d, fields) {
-  const ex = dayDocs(d)[0];
+  const dd = dayDocs(d), key = Object.keys(fields)[0];
+  const ex = dd.find(t => t[key]) || dd[0];
   if (ex) await updateDoc(doc(db, "users", uid, "trainings", ex.id), fields);
   else await addDoc(col("trainings"), { d, ...fields, created: Date.now() });
 }
@@ -586,7 +656,7 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<":
 function toast(msg) { document.querySelectorAll(".toast").forEach(x => x.remove()); const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; t.setAttribute("role", "status"); document.body.appendChild(t); setTimeout(() => t.remove(), 1800); }
 let D;
 function renderAll() {
-  D = derive(); renderHead(D); renderJournal(); renderForm(D); renderToday(D);
+  D = derive(); renderHead(D); renderJournal(); renderForm(D); renderToday(D); renderIntervalNote(D);
   if (!D.ts.length) {
     const msg = loaded.t ? '<p class="empty">Noch keine Trainings in diesem Konto. Trag oben dein erstes Training ein.</p>' : '<p class="empty">Lade deine Trainings …</p>';
     document.getElementById("buch").innerHTML = msg;
@@ -600,13 +670,15 @@ function renderAll() {
 document.querySelector("nav.tabs").addEventListener("click", e => { const b = e.target.closest("button[data-tab]"); if (!b) return; show(b.dataset.tab); });
 function show(tab) {
   document.querySelectorAll("[data-view]").forEach(s => s.hidden = s.id !== "v-" + tab);
+  document.querySelector("header.top").hidden = tab === "bewegt";
   document.querySelectorAll("nav.tabs button").forEach(b => b.dataset.tab === tab ? b.setAttribute("aria-current", "page") : b.removeAttribute("aria-current"));
   try { localStorage.setItem(KEY + "-tab", tab); } catch (e) {}
   window.scrollTo(0, 0);
   if (tab === "leiter") requestAnimationFrame(scrollCharts);
 }
 document.getElementById("feel").onclick = e => { const b = e.target.closest("[data-feel]"); if (!b) return; const v = +b.dataset.feel; feel = feel === v ? 0 : v; feelTouched = true; renderForm(D); };
-document.getElementById("t-date").addEventListener("change", () => { feelTouched = false; renderForm(D); renderToday(D); });
+document.getElementById("t-date").addEventListener("change", () => { feelTouched = false; editing.clear(); renderForm(D); renderToday(D); });
+document.getElementById("r-iv").addEventListener("change", e => { e.target.dataset.touched = "1"; });
 document.getElementById("formcard").addEventListener("input", e => { const f = e.target.closest("form"); if (f) f.querySelectorAll(".err").forEach(x => x.textContent = ""); liveMarks(D); });
 document.getElementById("formcard").addEventListener("submit", async e => {
   e.preventDefault();
@@ -624,7 +696,7 @@ document.getElementById("formcard").addEventListener("submit", async e => {
   } else if (k === "r") {
     const min = parseInt(val("r-min")), w = parseInt(val("r-w"));
     if (isNaN(min)) { err.textContent = "Trag zuerst die Minuten ein."; return; }
-    fields = { r: { min, w: isNaN(w) ? 0 : w } }; label = "Rudern eingetragen";
+    fields = { r: { min, w: isNaN(w) ? 0 : w } }; if (document.getElementById("r-iv").checked) fields.r.iv = true; label = "Rudern eingetragen";
   } else if (k === "lb") {
     const min = parseFloat(val("lb-min").replace(",", ".")), km = parseFloat(val("lb-km").replace(",", ".")), ps = val("lb-pace");
     if (isNaN(min)) { err.textContent = "Trag zuerst die Minuten ein."; return; }
@@ -633,23 +705,30 @@ document.getElementById("formcard").addEventListener("submit", async e => {
     if (!pace && km > 0) { const sec = Math.round(min * 60 / km); pace = `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`; }
     const o = { min }; if (!isNaN(km)) o.km = km; if (pace) o.pace = pace;
     fields = { lb: o }; label = "Laufband eingetragen";
-  }
+  } else if (k === "mob") { fields = { mob: true }; label = "Schulterstange abgehakt"; }
   if (!fields) return;
   const btn = f.querySelector("button[type=submit]"); btn.disabled = true;
   try {
     await saveFields(d, fields);
     if (f.id === "f-day") feelTouched = false;
-    else f.querySelectorAll("input").forEach(i => { if (!i.classList.contains("sets") || k === "lb") i.value = ""; });
+    else { f.querySelectorAll("input").forEach(i => { if (i.type === "checkbox") i.checked = false; else if (!i.classList.contains("sets") || k === "lb") i.value = ""; }); editing.delete(k); }
     toast(label); renderForm(D);
   } catch (er) { err.textContent = "Nicht gespeichert: " + er.code; }
   btn.disabled = false;
+});
+document.getElementById("formcard").addEventListener("click", e => { const b = e.target.closest("[data-edit]"); if (b) startEdit(b.dataset.edit); });
+document.getElementById("today").addEventListener("click", e => { const b = e.target.closest("[data-edit]"); if (b) startEdit(b.dataset.edit); });
+document.getElementById("buch").addEventListener("click", e => {
+  const b = e.target.closest("[data-editday]"); if (!b) return;
+  document.getElementById("t-date").value = b.dataset.editday; feelTouched = false; editing.clear(); renderForm(D); renderToday(D);
+  document.getElementById("formcard").scrollIntoView({ behavior: "smooth", block: "start" }); toast("Tag zum Bearbeiten geöffnet");
 });
 // Einzelnes Element von heute entfernen (zweistufig)
 document.getElementById("today").addEventListener("click", async e => {
   const b = e.target.closest("[data-rm]"); if (!b) return;
   if (!b.classList.contains("sure")) { b.classList.add("sure"); b.textContent = "Wirklich?"; setTimeout(() => { b.classList.remove("sure"); b.textContent = "Entfernen"; }, 4000); return; }
   const [id, k] = b.dataset.rm.split("/"), t = S.trainings.find(x => x.id === id); if (!t) return;
-  const rest = ["kh", "p", "kb", "r", "lb", "feel", "note"].filter(f => f !== k && t[f]);
+  const rest = ["kh", "p", "kb", "r", "lb", "mob", "feel", "note"].filter(f => f !== k && t[f]);
   if (rest.length) await updateDoc(doc(db, "users", uid, "trainings", id), { [k]: deleteField() }); else await deleteDoc(doc(db, "users", uid, "trainings", id));
   if (k === "feel" || k === "note") feelTouched = false;
   toast("Entfernt");
