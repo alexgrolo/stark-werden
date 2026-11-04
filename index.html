@@ -319,7 +319,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--muted) }
     <details>
       <summary>Konto</summary>
       <p class="hint" id="who"></p>
-      <p class="hint">App-Version 7 · 30.10.2026</p>
+      <p class="hint">App-Version 8 · 04.11.2026</p>
       <div class="row" style="margin-top:8px"><button class="btn ghost" type="button" id="b-logout">Abmelden</button></div>
     </details>
   </div>
@@ -401,6 +401,7 @@ function derive() {
 const isKraft = t => EX.some(([k]) => t[k]);
 const isCardio = t => !!(t.r || t.lb);
 const isTraining = t => isKraft(t) || isCardio(t);
+const isTrainingDay = d => S.trainings.some(t => t.d === d && isTraining(t));
 const FEEL = [["Zäh", "kaum Energie, jeder Satz war Arbeit"], ["Schwer", "eher Pflicht als Freude"], ["Okay", "solide Einheit, nichts Besonderes"], ["Gut", "kraftvoll, hat Spaß gemacht"], ["Top", "alles lief, ich hätte noch mehr gekonnt"]];
 const fmtKm = v => fmt(Math.round(v * 100) / 100);
 function valText(t, k, m) {
@@ -426,6 +427,7 @@ function entryHTML(t, m) {
   if (t.r) vals.push(`<span class="c-r">R ${valText(t, "r", m)}</span>`);
   if (t.lb) vals.push(`<span class="c-lb">LB ${valText(t, "lb", m)}</span>`);
   if (t.mob) vals.push(`<span class="c-mob">◇ Schulterstange</span>`);
+  if (!isTraining(t) && !t.mob) vals.push(`<span style="color:var(--muted)">Kein Training</span>`);
   const sym = [isKraft(t) && "△", isCardio(t) && "◯", t.mob && "◇"].filter(Boolean).join(" ");
   const dots = t.feel ? "●".repeat(t.feel) + "○".repeat(5 - t.feel) : "";
   return `<div class="entry"><div class="d">${WD[wdIdx(dt)]} ${dmy(t.d)}<small>${sym}</small></div><div class="vals">${vals.join("")}</div><div class="dots">${dots}</div>${t.note ? `<div class="note">${esc(t.note)}</div>` : ""}<div class="acts"><button class="del" type="button" data-editday="${t.d}">Bearbeiten</button> <button class="del" type="button" data-del="trainings/${t.id}">Löschen</button></div></div>`;
@@ -645,10 +647,11 @@ function renderToday(D) {
   if (nd) items.push(`<div class="titem"><span class="v">${esc(nd.note)}</span><button class="rm" type="button" data-rm="${nd.id}/note">Entfernen</button></div>`);
   document.getElementById("today").innerHTML = `<h2>${isToday ? "Heute" : "Training am"} · ${WD[wdIdx(dt)]} ${dmy(d)}</h2>` + (items.length ? items.join("") : `<p class="hint" style="margin:0">${isToday ? "Noch nichts eingetragen. You have to work it, baby!" : "An diesem Tag ist nichts eingetragen."}</p>`);
 }
-async function saveFields(d, fields) {
-  const dd = dayDocs(d), key = Object.keys(fields)[0];
+// removals = Felder, die geleert werden sollen; das geht nur bei einem bestehenden Eintrag
+async function saveFields(d, fields, removals = []) {
+  const dd = dayDocs(d), key = Object.keys(fields)[0] || removals[0];
   const ex = dd.find(t => t[key]) || dd[0];
-  if (ex) await updateDoc(doc(db, "users", uid, "trainings", ex.id), fields);
+  if (ex) { const upd = { ...fields }; for (const r of removals) upd[r] = deleteField(); await updateDoc(doc(db, "users", uid, "trainings", ex.id), upd); }
   else await addDoc(col("trainings"), { d, ...fields, created: Date.now() });
 }
 function parsePace(s) { const m = String(s).trim().match(/^(\d{1,2})[:.,'′](\d{1,2})$/); return m && +m[2] < 60 ? `${+m[1]}:${String(+m[2]).padStart(2, "0")}` : null; }
@@ -689,7 +692,10 @@ document.getElementById("formcard").addEventListener("submit", async e => {
   if (f.id === "f-day") {
     const note = val("t-note");
     if (!feel && !note) { err.textContent = "Wähle ein Gefühl oder schreib eine Notiz."; return; }
-    fields = { feel: feel || deleteField(), note: note || deleteField() }; label = "Gespeichert";
+    fields = {}; var removals = [];
+    if (feel) fields.feel = feel; else removals.push("feel");
+    if (note) fields.note = note; else removals.push("note");
+    label = isTrainingDay(d) ? "Gespeichert" : "Notiz für den Tag gespeichert";
   } else if (EX.some(([e]) => e === k)) {
     const kg = parseFloat(val(k + "-kg").replace(",", "."));
     if (isNaN(kg)) { err.textContent = "Trag zuerst das Gewicht ein."; return; }
@@ -711,7 +717,7 @@ document.getElementById("formcard").addEventListener("submit", async e => {
   if (!fields) return;
   const btn = f.querySelector("button[type=submit]"); btn.disabled = true;
   try {
-    await saveFields(d, fields);
+    await saveFields(d, fields, typeof removals !== "undefined" ? removals : []);
     if (f.id === "f-day") feelTouched = false;
     else { f.querySelectorAll("input").forEach(i => { if (i.type === "checkbox") i.checked = false; else if (!i.classList.contains("sets") || k === "lb") i.value = ""; }); editing.delete(k); }
     toast(label); renderForm(D);
